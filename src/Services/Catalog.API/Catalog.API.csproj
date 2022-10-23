@@ -6,4 +6,23 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <Choose>
+    <When Condition="'$(Configuration)'=='release'">
+      <ItemGroup>
+        <Content Update="appsettings.Development.json" CopyToPublishDirectory="Never" />
+        <Content Update="appsettings.User.json" CopyToPublishDirectory="Never" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Content Update="appsettings.Development.json" CopyToPublishDirectory="Always" />
+        <Content Update="appsettings.User.json" CopyToPublishDirectory="Always" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+
+  <ItemGroup>
+    <Content Update="appsettings.json" CopyToPublishDirectory="Always" />
+  </ItemGroup>
+
 </Project>
