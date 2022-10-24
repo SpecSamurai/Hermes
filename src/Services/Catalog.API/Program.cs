@@ -1,3 +1,6 @@
+using Hermes.Catalog.API.Constants;
+using Microsoft.OpenApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 if (builder.Environment.IsDevelopment())
@@ -7,6 +10,24 @@ if (builder.Environment.IsDevelopment())
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc(
+        ApiSettings.ApiVersion1,
+        new OpenApiInfo
+        {
+            Title = ApiSettings.ApiTitle,
+            Version = ApiSettings.ApiVersion1
+        });
+
+    options.SwaggerDoc(
+        ApiSettings.ApiVersion2,
+        new OpenApiInfo
+        {
+            Title = ApiSettings.ApiTitle,
+            Version = ApiSettings.ApiVersion2
+        });
+});
 
 var app = builder.Build();
 
@@ -14,6 +35,18 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSwagger();
+app.UseSwaggerUI(options =>
+{
+    options.RoutePrefix = string.Empty;
+    options.SwaggerEndpoint(
+        $"/swagger/{ApiSettings.ApiVersion1}/swagger.json",
+        $"{ApiSettings.ApiTitle} {ApiSettings.ApiVersion1}");
+    options.SwaggerEndpoint(
+        $"/swagger/{ApiSettings.ApiVersion2}/swagger.json",
+        $"{ApiSettings.ApiTitle} {ApiSettings.ApiVersion2}");
+});
 
 app.UseEndpoints(configure =>
 {
