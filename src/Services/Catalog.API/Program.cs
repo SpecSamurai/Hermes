@@ -1,3 +1,4 @@
+using Hermes.Catalog.API.Infrastructure;
 using Hermes.Catalog.API.Constants;
 using Microsoft.OpenApi.Models;
 
@@ -28,6 +29,24 @@ builder.Services.AddSwaggerGen(options =>
             Version = ApiSettings.ApiVersion2
         });
 });
+
+var catalogContextConnectionString = builder.Configuration.GetConnectionString(nameof(CatalogContext));
+builder.Services.AddSqlServer<CatalogContext>(
+    catalogContextConnectionString,
+    sqlServerOptions =>
+    {
+        sqlServerOptions.MigrationsAssembly(typeof(Program).Assembly.FullName);
+        sqlServerOptions.EnableRetryOnFailure();
+    },
+    options =>
+    {
+        if (builder.Environment.IsDevelopment())
+        {
+            options.EnableDetailedErrors();
+            options.EnableSensitiveDataLogging();
+        }
+    }
+);
 
 var app = builder.Build();
 
