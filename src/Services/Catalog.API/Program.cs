@@ -53,6 +53,12 @@ builder.Services.AddDbContext<CatalogContext>(options =>
 
 var app = builder.Build();
 
+using (var catalogContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<CatalogContext>())
+{
+    catalogContext.Database.Migrate();
+    await catalogContext.SeedAsync();
+}
+
 app.UseRouting();
 
 app.UseAuthentication();
