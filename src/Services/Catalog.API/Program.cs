@@ -1,6 +1,8 @@
-using Hermes.Catalog.API.Infrastructure;
+using Hermes.Catalog.API;
 using Hermes.Catalog.API.Constants;
 using Microsoft.OpenApi.Models;
+using Hermes.Catalog.API.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,8 @@ if (builder.Environment.IsDevelopment())
 {
     builder.Configuration.AddJsonFile("appsettings.User.json", optional: true, reloadOnChange: true);
 }
+
+builder.Services.AddCustomOptions();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -30,23 +34,22 @@ builder.Services.AddSwaggerGen(options =>
         });
 });
 
-var catalogContextConnectionString = builder.Configuration.GetConnectionString(nameof(CatalogContext));
-builder.Services.AddSqlServer<CatalogContext>(
-    catalogContextConnectionString,
-    sqlServerOptions =>
-    {
-        sqlServerOptions.MigrationsAssembly(typeof(Program).Assembly.FullName);
-        sqlServerOptions.EnableRetryOnFailure();
-    },
-    options =>
-    {
-        if (builder.Environment.IsDevelopment())
+builder.Services.AddDbContext<CatalogContext>(options =>
+{
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString(nameof(CatalogContext)),
+        sqlServerOptions =>
         {
-            options.EnableDetailedErrors();
-            options.EnableSensitiveDataLogging();
-        }
+            sqlServerOptions.MigrationsAssembly(typeof(Program).Assembly.FullName);
+            sqlServerOptions.EnableRetryOnFailure();
+        });
+
+    if (builder.Environment.IsDevelopment())
+    {
+        options.EnableDetailedErrors();
+        options.EnableSensitiveDataLogging();
     }
-);
+});
 
 var app = builder.Build();
 
