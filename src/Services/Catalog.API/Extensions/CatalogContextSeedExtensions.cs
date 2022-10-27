@@ -1,6 +1,6 @@
-using Hermes.Catalog.API.Infrastructure.Entities;
+using Hermes.Catalog.API.Entities;
 
-namespace Hermes.Catalog.API.Infrastructure.Extensions;
+namespace Hermes.Catalog.API.Extensions;
 
 public static class CatalogContextSeedExtensions
 {

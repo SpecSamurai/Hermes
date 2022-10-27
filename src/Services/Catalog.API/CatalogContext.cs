@@ -1,7 +1,7 @@
-using Hermes.Catalog.API.Infrastructure.Entities;
+using Hermes.Catalog.API.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Hermes.Catalog.API.Infrastructure;
+namespace Hermes.Catalog.API;
 
 public class CatalogContext : DbContext
 {

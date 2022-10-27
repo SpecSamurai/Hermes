@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Hermes.Catalog.API.Infrastructure.Entities;
+namespace Hermes.Catalog.API.Entities;
 
 public abstract class Entity
 {

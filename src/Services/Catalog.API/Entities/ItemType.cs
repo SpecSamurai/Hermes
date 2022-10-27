@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Hermes.Catalog.API.Infrastructure.Entities;
+namespace Hermes.Catalog.API.Entities;
 
-public class Brand : Entity
+public class ItemType : Entity
 {
     [MaxLength(255)]
     public string Name { get; set; } = string.Empty;

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace Hermes.Catalog.API.Infrastructure.Entities;
+namespace Hermes.Catalog.API.Entities;
 
 public class Item : Entity
 {
