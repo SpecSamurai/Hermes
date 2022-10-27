@@ -26,8 +26,7 @@
                 "panel": "shared",
                 "showReuseMessage": true,
                 "clear": false
-            },
-            "problemMatcher": "$msCompile"
+            }
         },
         {
             "label": "test",
