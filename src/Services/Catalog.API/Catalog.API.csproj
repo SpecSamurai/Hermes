@@ -13,6 +13,11 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.10" />
+    <PackageReference Include="NServiceBus" Version="7.8.0" />
+    <PackageReference Include="NServiceBus.Extensions.Hosting" Version="1.1.0" />
+    <PackageReference Include="NServiceBus.Persistence.Sql" Version="6.6.0" />
+    <PackageReference Include="NServiceBus.RabbitMQ" Version="7.0.3" />
+    <PackageReference Include="Polly" Version="7.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
@@ -37,6 +42,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Frameworks\Specifications\Specifications.csproj" />
+    <ProjectReference Include="..\..\Frameworks\Repositories\Repositories.csproj" />
   </ItemGroup>
 
 </Project>
