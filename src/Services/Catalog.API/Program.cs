@@ -51,6 +51,8 @@ builder.Services.AddDbContext<CatalogContext>(options =>
     }
 });
 
+builder.Host.UseNServiceBus();
+
 var app = builder.Build();
 
 using (var catalogContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<CatalogContext>())
