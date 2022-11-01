@@ -1,0 +1,70 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  sqlpad:
+    container_name: sqlpad
+    image: sqlpad/sqlpad:latest
+    restart: on-failure:3
+    hostname: 'sqlpad'
+    ports:
+      - '3000:3000'
+    environment:
+      SQLPAD_ADMIN: ${SQLPAD_ADMIN}
+      SQLPAD_ADMIN_PASSWORD: ${SQLPAD_ADMIN_PASSWORD}
+      SQLPAD_AUTH_DISABLED: True
+      SQLPAD_AUTH_DISABLED_DEFAULT_ROLE: admin
+      SQLPAD_APP_LOG_LEVEL: info
+      SQLPAD_WEB_LOG_LEVEL: warn
+      SQLPAD_CONNECTIONS__catalog__name: SQL Server Catalog
+      SQLPAD_CONNECTIONS__catalog__driver: sqlserver
+      SQLPAD_CONNECTIONS__catalog__host: catalog-sql
+      SQLPAD_CONNECTIONS__catalog__database: master
+      SQLPAD_CONNECTIONS__catalog__username: ${CATALOG_API_MSSQL_USERNAME}
+      SQLPAD_CONNECTIONS__catalog__password: ${CATALOG_API_MSSQL_SA_PASSWORD}
+    volumes:
+      - sqlpad-volume:/var/lib/sqlpad
+    depends_on:
+      - catalog-sql
+
+  catalog-sql:
+    container_name: catalog-sql
+    restart: on-failure:3
+    hostname: catalog-sql
+    ports:
+      - "1433:1433"
+    environment:
+      MSSQL_SA_PASSWORD: ${CATALOG_API_MSSQL_SA_PASSWORD}
+      ACCEPT_EULA: 1
+      MSSQL_PID: Developer # Default is 'Developer'
+
+  catalog-api:
+    container_name: catalog-api
+    build:
+      args:
+        CONFIGURATION: Debug
+    restart: on-failure:3
+    expose:
+      - 80
+    ports:
+      - "5101:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80 # ASPNETCORE_URLS=https://+:443;http://+:80
+
+      - ConnectionStrings__CatalogContext=Server=catalog-sql,1433;Database=master;User Id=${CATALOG_API_MSSQL_USERNAME};Password=${CATALOG_API_MSSQL_SA_PASSWORD}
+
+      - BusOptions__Host=rabbitmq
+      - BusOptions__Username=${BUSOPTIONS_USERNAME}
+      - BusOptions__Password=${BUSOPTIONS_PASSWORD}
+      - BusOptions__LicensePath=License.xml
+
+  rabbitmq:
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+volumes:
+  sqlpad-volume:

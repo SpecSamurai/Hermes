@@ -1,0 +1,21 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  catalog-sql:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+
+  catalog-api:
+    image: hermes/catalog-api:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: src/Services/Catalog.API/Dockerfile
+      args:
+        NET_VERSION: '6.0'
+    depends_on:
+      - catalog-sql
+      - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:management
