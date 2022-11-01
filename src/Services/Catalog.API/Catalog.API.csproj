@@ -21,23 +21,17 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
-  <Choose>
-    <When Condition="'$(Configuration)'=='release'">
-      <ItemGroup>
-        <Content Update="appsettings.Development.json" CopyToPublishDirectory="Never" />
-        <Content Update="appsettings.User.json" CopyToPublishDirectory="Never" />
-      </ItemGroup>
-    </When>
-    <Otherwise>
-      <ItemGroup>
-        <Content Update="appsettings.Development.json" CopyToPublishDirectory="Always" />
-        <Content Update="appsettings.User.json" CopyToPublishDirectory="Always" />
-      </ItemGroup>
-    </Otherwise>
-  </Choose>
-
   <ItemGroup>
     <Content Update="appsettings.json" CopyToPublishDirectory="Always" />
+    <Content Update="appsettings.User.json" CopyToPublishDirectory="Never" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)'=='release'">
+    <Content Update="appsettings.Development.json" CopyToPublishDirectory="Never" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="License.xml" CopyToPublishDirectory="Always" />
   </ItemGroup>
 
   <ItemGroup>
