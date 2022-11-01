@@ -3,7 +3,6 @@ ARG NET_VERSION
 FROM mcr.microsoft.com/dotnet/aspnet:${NET_VERSION} AS base
 WORKDIR /app
 EXPOSE 80 443
-ENV ASPNETCORE_URLS=https://+:443;http://+:80
 
 FROM mcr.microsoft.com/dotnet/sdk:${NET_VERSION} AS publish
 ARG CONFIGURATION
