@@ -16,7 +16,6 @@
                 "build",
                 "${workspaceFolder}",
                 "/property:GenerateFullPaths=true"
-                // "/consoleloggerparameters:NoSummary"
             ],
             "group": "build",
             "presentation": {
