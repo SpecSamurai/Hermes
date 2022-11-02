@@ -1,10 +1,11 @@
 using Hermes.Catalog.API.Options;
+using Hermes.Catalog.API.Repositories;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtenstions
 {
-    public static void AddCustomOptions(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddCustomOptions(this IServiceCollection serviceCollection)
     {
         serviceCollection
             .AddOptions<MigrationOptions>()
@@ -23,5 +24,10 @@ public static class ServiceCollectionExtenstions
                     .Bind(settings))
             .ValidateDataAnnotations()
             .ValidateOnStart();
+
+        return serviceCollection;
     }
+
+    public static IServiceCollection AddDependencies(this IServiceCollection serviceCollection) =>
+        serviceCollection.AddScoped<IItemRepository, ItemRepository>();
 }
