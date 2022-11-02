@@ -3,6 +3,7 @@ using Hermes.Catalog.API.Constants;
 using Microsoft.OpenApi.Models;
 using Hermes.Catalog.API.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Hermes.Catalog.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,27 @@ if (builder.Environment.IsDevelopment())
     builder.Configuration.AddJsonFile("appsettings.User.json", optional: true, reloadOnChange: true);
 }
 
-builder.Services.AddCustomOptions();
+using (var catalogContext = new CatalogContext(
+    new DbContextOptionsBuilder<CatalogContext>()
+        .UseSqlServer(builder.Configuration.GetConnectionString(nameof(CatalogContext)))
+        .Options))
+{
+    catalogContext.Database.EnsureCreated();
+
+    // var pendingMigrations = await catalogContext.Database.GetPendingMigrationsAsync();
+    // if (pendingMigrations.Any())
+    //     await catalogContext.Database.MigrateAsync();
+
+    await catalogContext.SeedAsync();
+}
+
+builder.Host
+    .UseNServiceBus()
+    .AddDbContext(builder.Environment);
+
+builder.Services
+    .AddCustomOptions()
+    .AddDependencies();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -34,33 +55,9 @@ builder.Services.AddSwaggerGen(options =>
         });
 });
 
-builder.Services.AddDbContext<CatalogContext>(options =>
-{
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString(nameof(CatalogContext)),
-        sqlServerOptions =>
-        {
-            sqlServerOptions.MigrationsAssembly(typeof(Program).Assembly.FullName);
-            sqlServerOptions.EnableRetryOnFailure();
-        });
-
-    if (builder.Environment.IsDevelopment())
-    {
-        options.EnableDetailedErrors();
-        options.EnableSensitiveDataLogging();
-    }
-});
-
-builder.Host.UseNServiceBus();
-
 var app = builder.Build();
 
-using (var catalogContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<CatalogContext>())
-{
-    catalogContext.Database.Migrate();
-    await catalogContext.SeedAsync();
-}
-
+app.UseMiddleware<MessageSessionMiddleware>();
 app.UseRouting();
 
 app.UseAuthentication();
