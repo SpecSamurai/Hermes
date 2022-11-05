@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Specifications", "src\Frame
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "src\Frameworks\Repositories\Repositories.csproj", "{16C6BA38-17AD-426A-B6CD-1EC7A905AB2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maybe", "src\Frameworks\Maybe\Maybe.csproj", "{A8318F11-05FF-4D26-B5BF-C89DDC8FC583}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Functional", "src\Frameworks\Functional\Functional.csproj", "{A8318F11-05FF-4D26-B5BF-C89DDC8FC583}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
