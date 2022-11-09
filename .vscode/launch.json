@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/Services/Catalog.API/bin/Debug/net6.0/Catalog.API.dll",
+            "program": "${workspaceFolder}/src/Services/Catalog.API/bin/Debug/net7.0/Catalog.API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Services/Catalog.API",
             "stopAtEntry": false,
