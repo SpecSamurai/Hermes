@@ -30,6 +30,9 @@
 - Kubernetes
 - Helm Charts
 
+## Versioning
+A version must follow the [SemVer 2](https://semver.org/spec/v2.0.0.html) standard.
+
 ## References
 - [.NET Microservices: Architecture for Containerized .NET Applications](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/)
 - [.NET Microservices Sample Reference Application](https://github.com/dotnet-architecture/eShopOnContainers)
