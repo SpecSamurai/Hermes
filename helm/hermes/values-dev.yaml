@@ -1,0 +1,15 @@
+environmentTag: develop
+
+catalogApi:
+  container:
+    repository: hermes
+    tag: latest
+    imagePullPolicy: IfNotPresent
+    memory: "128Mi"
+    cpu: "500m"
+
+  service:
+    nodePort: 30007
+
+  env:
+    ASPNETCORE_ENVIRONMENT: Development
