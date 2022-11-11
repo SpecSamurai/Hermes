@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-api
+  namespace: {{ .Values.project }}-{{ .Values.environmentTag }}
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog-api
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: catalog-api
+        tier: backend
+    spec:
+      containers:
+        - name: catalog-api
+          image: {{ .Values.catalogApi.container.repository }}/catalog-api:{{ .Values.catalogApi.container.tag }}
+          imagePullPolicy: {{ .Values.catalogApi.container.imagePullPolicy }}
+          resources:
+            limits:
+              memory: {{ .Values.catalogApi.container.memory }}
+              cpu: {{ .Values.catalogApi.container.cpu }}
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: catalog-api
