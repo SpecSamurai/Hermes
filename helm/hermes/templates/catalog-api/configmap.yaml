@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: catalog-api
+  namespace: {{ .Values.project }}-{{ .Values.environmentTag }}
+  labels:
+    app: catalog-api
+    tier: backend
+data:
+  ASPNETCORE_ENVIRONMENT: {{ .Values.catalogApi.env.ASPNETCORE_ENVIRONMENT }}
+immutable: true
