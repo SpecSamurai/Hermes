@@ -1,0 +1,9 @@
+apiVersion: v2
+name: hermes
+version: 0.1.0
+description: E-commerce project based on a microservices architecture.
+type: application
+home: https://github.com/SirSpec/Hermes
+sources:
+  - https://github.com/SirSpec/Hermes
+appVersion: "0.1.0"
