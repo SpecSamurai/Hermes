@@ -1,0 +1,15 @@
+environmentTag: production
+
+catalogApi:
+  container:
+    repository: hermes
+    tag: latest
+    imagePullPolicy: Always
+    memory: "128Mi"
+    cpu: "500m"
+
+  service:
+    nodePort: 30007
+
+  env:
+    ASPNETCORE_ENVIRONMENT: Production
