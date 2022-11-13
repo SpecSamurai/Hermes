@@ -1,4 +1,4 @@
-namespace Hermes.Frameworks.Repositories.ReadOnly;
+namespace Hermes.Frameworks.Repositories.Query;
 
 public interface IQueryByIdRepository<TEntity, TKey>
 {

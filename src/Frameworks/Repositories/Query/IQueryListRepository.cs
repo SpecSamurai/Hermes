@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Hermes.Frameworks.Repositories.ReadOnly;
+namespace Hermes.Frameworks.Repositories.Query;
 
 public interface IQueryListRepository<TEntity>
 {

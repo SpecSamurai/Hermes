@@ -1,5 +1,5 @@
 using Hermes.Catalog.API.Entities;
-using Hermes.Frameworks.Repositories.ReadOnly;
+using Hermes.Frameworks.Repositories.Query;
 
 namespace Hermes.Catalog.API.Repositories.ItemTypes;
 
