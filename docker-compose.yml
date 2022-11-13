@@ -12,7 +12,7 @@ services:
       context: .
       dockerfile: src/Services/Catalog.API/Dockerfile
       args:
-        NET_VERSION: '6.0'
+        NET_VERSION: '7.0'
     depends_on:
       - catalog-sql
       - rabbitmq
