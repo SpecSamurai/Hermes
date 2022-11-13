@@ -20,7 +20,10 @@ public class Item : Entity
 
     [MaxLength(255)]
     public string? PictureUri { get; set; }
+
+    [Range(0, int.MaxValue)]
     public int AvailableStock { get; set; }
+
     public bool OnReorder { get; set; }
 
     [ForeignKey(nameof(TypeId))]
