@@ -1,5 +1,4 @@
 using Hermes.Catalog.API.Entities;
-using Hermes.Catalog.API.Requests;
 using Hermes.Catalog.API.Requests.ItemTypes;
 using Hermes.Catalog.API.Responses;
 
