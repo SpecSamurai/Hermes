@@ -2,7 +2,7 @@
 
 namespace Hermes.Frameworks.Repositories.ReadOnly;
 
-public interface IReadOnlyListRepository<TEntity>
+public interface IQueryListRepository<TEntity>
 {
     Task<long> GetCountAsync(CancellationToken cancellationToken = default);
 
@@ -15,7 +15,7 @@ public interface IReadOnlyListRepository<TEntity>
 
     Task<List<TEntity>> GetPagedListAsync(
         int skipCount,
-        int maxResultCount,
+        int takeCount,
         string sorting,
         bool includeDetails = false,
         CancellationToken cancellationToken = default);
