@@ -13,7 +13,7 @@ public record Failure<TValue> : IResult<TValue>
             onFailure(ErrorMessage);
 
     public Task<TOutput> MatchAsync<TOutput>(
-        Func<TValue, Task<TOutput>> onSuccess,
+        Func<TValue, Task<TOutput>> onSuccessAsync,
         Func<ErrorMessage, TOutput> onFailure) =>
             Task.FromResult(onFailure(ErrorMessage));
 

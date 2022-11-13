@@ -7,8 +7,10 @@ public static class ResultFunctorExtensions
             onSuccess: success => Result.Success<TOutput>(mapping(success)),
             onFailure: failure => Result.Failure<TOutput>(failure));
 
-    public static async Task<IResult<TOutput>> MapAsync<TValue, TOutput>(this IResult<TValue> result, Func<TValue, Task<TOutput>> mapping) =>
-        await result.MatchAsync(
-            onSuccess: async success => Result.Success<TOutput>(await mapping(success)),
-            onFailure: failure => Result.Failure<TOutput>(failure));
+    public static async Task<IResult<TOutput>> MapAsync<TValue, TOutput>(
+        this IResult<TValue> result,
+        Func<TValue, Task<TOutput>> mappingAsync) =>
+            await result.MatchAsync(
+                onSuccessAsync: async success => Result.Success<TOutput>(await mappingAsync(success)),
+                onFailure: failure => Result.Failure<TOutput>(failure));
 }

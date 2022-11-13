@@ -13,9 +13,9 @@ public record Success<TValue> : IResult<TValue>
             onSuccess(Value);
 
     public async Task<TOutput> MatchAsync<TOutput>(
-        Func<TValue, Task<TOutput>> onSuccess,
+        Func<TValue, Task<TOutput>> onSuccessAsync,
         Func<ErrorMessage, TOutput> onFailure) =>
-            await onSuccess(Value);
+            await onSuccessAsync(Value);
 
     public static implicit operator TValue(Success<TValue> success) =>
         success.Value;
