@@ -21,6 +21,12 @@
 - `kubectl apply -f ./k8s --recursive`
 - `kubectl apply -f ./k8s/configmap/catalog-api.dev.yaml -f ./k8s/deployment --recursive`
 
+- `helm package ./hermes`
+- `helm lint ./hermes --values ./hermes/values.yaml --values ./hermes/values-{env}.yaml`
+- `helm install hermes ./hermes --wait --values ./hermes/values.yaml --values ./hermes/values-{env}.yaml`
+    - Development: `values-dev.yaml`
+    - Production: `values-prod.yaml`
+
 ## Architecture
 
 ## Tech stack
