@@ -84,7 +84,7 @@ public class FailureTest
 
         // Act
         var actual = await sut.MatchAsync(
-            onSuccess: async _ => await Task.Run(() => string.Empty),
+            onSuccessAsync: async _ => await Task.Run(() => string.Empty),
             onFailure: failure => failure.Code
         );
 

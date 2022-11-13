@@ -80,7 +80,7 @@ public class SuccessTest
 
         // Act
         var actual = await sut.MatchAsync(
-            onSuccess: async success => await Task.Run(() => success),
+            onSuccessAsync: async success => await Task.Run(() => success),
             onFailure: failure => failure.Code
         );
 
