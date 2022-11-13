@@ -2,7 +2,7 @@
 
 namespace Hermes.Frameworks.Repositories.Query;
 
-public interface IQueryListRepository<TEntity>
+public interface IListQueryRepository<TEntity>
 {
     Task<long> GetCountAsync(CancellationToken cancellationToken = default);
 

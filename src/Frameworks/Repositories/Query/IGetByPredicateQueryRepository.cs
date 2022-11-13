@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 
 namespace Hermes.Frameworks.Repositories.Query;
 
-public interface IQueryByPredicateRepository<TEntity>
+public interface IGetByPredicateQueryRepository<TEntity>
 {
     Task<TEntity?> FindAsync(
         Expression<Func<TEntity, bool>> predicate,

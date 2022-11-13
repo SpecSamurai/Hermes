@@ -4,8 +4,8 @@ using Hermes.Frameworks.Repositories.Query;
 namespace Hermes.Catalog.API.Repositories.Brands;
 
 public interface IBrandQueryRepository :
-    IQueryByIdRepository<Brand, Guid>,
-    IQueryByPredicateRepository<Brand>,
-    IQueryListRepository<Brand>
+    IGetByIdQueryRepository<Guid, Brand>,
+    IGetByPredicateQueryRepository<Brand>,
+    IListQueryRepository<Brand>
 {
 }
