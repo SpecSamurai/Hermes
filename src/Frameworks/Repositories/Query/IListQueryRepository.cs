@@ -4,19 +4,9 @@ namespace Hermes.Frameworks.Repositories.Query;
 
 public interface IListQueryRepository<TEntity>
 {
-    Task<long> GetCountAsync(CancellationToken cancellationToken = default);
-
-    Task<List<TEntity>> GetListAsync(bool includeDetails = false, CancellationToken cancellationToken = default);
-
-    Task<List<TEntity>> GetListAsync(
+    Task<List<TResult>> GetListAsync<TResult>(
         Expression<Func<TEntity, bool>> predicate,
-        bool includeDetails = false,
-        CancellationToken cancellationToken = default);
-
-    Task<List<TEntity>> GetPagedListAsync(
-        int skipCount,
-        int takeCount,
-        string sorting,
+        Expression<Func<TEntity, TResult>> selector,
         bool includeDetails = false,
         CancellationToken cancellationToken = default);
 }
