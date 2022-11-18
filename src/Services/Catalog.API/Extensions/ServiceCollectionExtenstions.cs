@@ -33,6 +33,9 @@ public static class ServiceCollectionExtenstions
     public static IServiceCollection AddDependencies(this IServiceCollection serviceCollection) =>
         serviceCollection
             .AddScoped<IItemQueryRepository, ItemQueryRepository>()
+            .AddScoped<IItemCommandRepository, ItemCommandRepository>()
             .AddScoped<IBrandQueryRepository, BrandQueryRepository>()
-            .AddScoped<IItemTypeQueryRepository, ItemTypeQueryRepository>();
+            .AddScoped<IBrandCommandRepository, BrandCommandRepository>()
+            .AddScoped<IItemTypeQueryRepository, ItemTypeQueryRepository>()
+            .AddScoped<IItemTypeCommandRepository, ItemTypeCommandRepository>();
 }
