@@ -25,20 +25,21 @@ public class BrandsCommandController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> CreateAsync([FromBody] BrandPostRequest request)
     {
         var brand = request.ToBrandEntity();
         await _brandCommandRepository.InsertAsync(brand, autoSave: true);
 
-        return CreatedAtAction(nameof(CreateAsync), new { id = brand.Id }, null);
+        return Created($"/{ApiSettings.ApiPrefix}/{ApiSettings.ApiVersion1}/{ApiSettings.BrandsEndpoint}/{brand.Id}", brand.Id);
     }
 
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> DeleteAsync(Guid id)
     {
         var brand = await _brandQueryRepository.FindAsync(id);
@@ -53,8 +54,9 @@ public class BrandsCommandController : ControllerBase
 
     [HttpPatch("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> PatchAsync(Guid id, JsonPatchDocument<BrandPatchRequest> request)
     {
         var brand = await _brandQueryRepository.FindAsync(id);

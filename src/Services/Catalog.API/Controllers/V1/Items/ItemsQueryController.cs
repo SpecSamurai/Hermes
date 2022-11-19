@@ -4,6 +4,7 @@ using Hermes.Catalog.API.Mappings;
 using Hermes.Catalog.API.Repositories.Items;
 using Hermes.Catalog.API.Requests;
 using Hermes.Catalog.API.Responses;
+using Hermes.Catalog.API.Responses.Items;
 using Hermes.Frameworks.Repositories.DataStructures;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,23 +23,23 @@ public class ItemsQueryController : ControllerBase
 
     [HttpGet("{id:guid}")]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(DetailedItemGetResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ItemGetResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetByIdAsync(Guid id)
     {
         var item = await _itemQueryRepository.FindAsync(id);
 
         return item is not null
-            ? Ok(item.ToItemGetResponse())
+            ? Ok(item.ToDetailedItemGetResponse())
             : NotFound(item);
     }
 
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(PageResponse<ItemGetResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetPageAsync([FromQuery] PageRequest request)
     {
         var items = await _itemQueryRepository.GetPageAsync(

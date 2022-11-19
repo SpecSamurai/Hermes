@@ -30,20 +30,21 @@ public class ItemsCommandController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> CreateAsync([FromBody] ItemPostRequest request)
     {
         var item = request.ToItemEntity();
         await _itemCommandRepository.InsertAsync(item, autoSave: true);
 
-        return CreatedAtAction(nameof(CreateAsync), new { id = item.Id }, null);
+        return Created($"/{ApiSettings.ApiPrefix}/{ApiSettings.ApiVersion1}/{ApiSettings.ItemsEndpoint}/{item.Id}", item.Id);
     }
 
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> DeleteAsync(Guid id)
     {
         var item = await _itemQueryRepository.FindAsync(id);
@@ -58,8 +59,9 @@ public class ItemsCommandController : ControllerBase
 
     [HttpPatch("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> PatchAsync(Guid id, JsonPatchDocument<ItemPatchRequest> request)
     {
         var item = await _itemQueryRepository.FindAsync(id);
