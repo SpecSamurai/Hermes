@@ -4,6 +4,7 @@ using Hermes.Catalog.API.Mappings;
 using Hermes.Catalog.API.Repositories.Brands;
 using Hermes.Catalog.API.Requests;
 using Hermes.Catalog.API.Responses;
+using Hermes.Frameworks.Repositories.DataStructures;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hermes.Catalog.API.Controller.V1.Brands;
@@ -38,11 +39,11 @@ public class BrandsQueryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(PageResponse<BrandGetResponse>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetItemsPageAsync([FromQuery] PageRequest request)
+    public async Task<IActionResult> GetPageAsync([FromQuery] PageRequest request)
     {
-        var brands = await _brandQueryRepository.GetPagedListAsync(
-            request.Index * request.Size,
-            request.Size,
+        var brands = await _brandQueryRepository.GetPageAsync(
+            Offset.Of(request.Index, request.Size),
+            entity => entity.ToBrandGetResponse(),
             request.Sorting ?? string.Empty);
 
         var response = brands.ToPageResponse(request.Index, request.Size);

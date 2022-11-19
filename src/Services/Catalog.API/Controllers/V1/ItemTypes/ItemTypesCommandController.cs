@@ -5,7 +5,7 @@ using Hermes.Catalog.API.Requests.ItemTypes;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Hermes.Catalog.API.Controller.V1.Brands;
+namespace Hermes.Catalog.API.Controller.V1.ItemTypes;
 
 [ApiController]
 [EndpointGroupName(ApiSettings.ApiVersion1)]

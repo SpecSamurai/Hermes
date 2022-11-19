@@ -1,5 +1,4 @@
 using Hermes.Catalog.API.Constants;
-using Hermes.Catalog.API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.JsonPatch;
 using Hermes.Catalog.API.Mappings;

@@ -4,6 +4,7 @@ using Hermes.Catalog.API.Mappings;
 using Hermes.Catalog.API.Repositories.Items;
 using Hermes.Catalog.API.Requests;
 using Hermes.Catalog.API.Responses;
+using Hermes.Frameworks.Repositories.DataStructures;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hermes.Catalog.API.Controller.V1.Items;
@@ -22,8 +23,8 @@ public class ItemsQueryController : ControllerBase
     [HttpGet("{id:guid}")]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ItemGetResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetByIdAsync(Guid id)
     {
@@ -38,11 +39,11 @@ public class ItemsQueryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(PageResponse<ItemGetResponse>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetItemsPageAsync([FromQuery] PageRequest request)
+    public async Task<IActionResult> GetPageAsync([FromQuery] PageRequest request)
     {
-        var items = await _itemQueryRepository.GetPagedListAsync(
-            request.Index * request.Size,
-            request.Size,
+        var items = await _itemQueryRepository.GetPageAsync(
+            Offset.Of(request.Index, request.Size),
+            entity => entity.ToItemGetResponse(),
             request.Sorting ?? string.Empty);
 
         var response = items.ToPageResponse(request.Index, request.Size);
