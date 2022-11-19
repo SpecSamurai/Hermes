@@ -7,20 +7,36 @@ namespace Hermes.Catalog.API.Mappings;
 public static class BrandMappings
 {
     public static BrandGetResponse ToBrandGetResponse(this Brand brand) =>
-        new BrandGetResponse
+        new()
         {
             Name = brand.Name
         };
 
-    public static PageResponse<BrandGetResponse> ToPageResponse(this IEnumerable<Brand> brands, int pageIndex, int pageSize)
-    {
-        var data = brands.Select(ToBrandGetResponse).ToList();
-        return new PageResponse<BrandGetResponse>(pageIndex, pageSize, data.Count, data);
-    }
+    public static PageResponse<BrandGetResponse> ToPageResponse(
+        this IEnumerable<BrandGetResponse> brands,
+        int pageIndex,
+        int pageSize) =>
+            new()
+            {
+                Data = brands,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
 
     public static Brand ToBrandEntity(this BrandPostRequest request) =>
-        new Brand
+        new()
         {
             Name = request.Name
         };
+
+    public static BrandPatchRequest ToBrandPatchRequest(this Brand brand) =>
+        new()
+        {
+            Name = brand.Name
+        };
+
+    public static void Patch(this Brand brand, BrandPatchRequest patch)
+    {
+        brand.Name = patch.Name;
+    }
 }

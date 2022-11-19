@@ -7,7 +7,7 @@ namespace Hermes.Catalog.API.Mappings;
 public static class ItemMappings
 {
     public static ItemGetResponse ToItemGetResponse(this Item item) =>
-        new ItemGetResponse
+        new()
         {
             Name = item.Name,
             Description = item.Description,
@@ -22,14 +22,19 @@ public static class ItemMappings
             BrandId = item.BrandId
         };
 
-    public static PageResponse<ItemGetResponse> ToPageResponse(this IEnumerable<Item> items, int pageIndex, int pageSize)
-    {
-        var data = items.Select(ToItemGetResponse).ToList();
-        return new PageResponse<ItemGetResponse>(pageIndex, pageSize, data.Count, data);
-    }
+    public static PageResponse<ItemGetResponse> ToPageResponse(
+        this IEnumerable<ItemGetResponse> items,
+        int pageIndex,
+        int pageSize) =>
+            new()
+            {
+                Data = items,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
 
     public static Item ToItemEntity(this ItemPostRequest request) =>
-        new Item
+        new()
         {
             Name = request.Name,
             Description = request.Description,
@@ -41,16 +46,28 @@ public static class ItemMappings
             BrandId = request.BrandId
         };
 
-    // public void Update(ItemPatchRequest itemPatch)
-    // {
-    //     Name = itemPatch.Name ?? Name;
-    //     Description = itemPatch.Description;
-    //     Price = itemPatch.Price ?? Price;
-    //     PictureFileName = itemPatch.PictureFileName;
-    //     PictureUri = itemPatch.PictureUri;
-    //     AvailableStock = itemPatch.AvailableStock ?? AvailableStock;
-    //     OnReorder = itemPatch.OnReorder ?? OnReorder;
-    //     TypeId = itemPatch.TypeId ?? TypeId;
-    //     BrandId = itemPatch.BrandId ?? BrandId;
-    // }
+    public static ItemPatchRequest ToItemPatchRequest(this Item item) =>
+        new()
+        {
+            Name = item.Name,
+            Description = item.Description,
+            Price = item.Price,
+            PictureFileName = item.PictureFileName,
+            PictureUri = item.PictureUri,
+            AvailableStock = item.AvailableStock,
+            TypeId = item.TypeId,
+            BrandId = item.BrandId
+        };
+
+    public static void Patch(this Item item, ItemPatchRequest patch)
+    {
+        item.Name = patch.Name;
+        item.Description = patch.Description;
+        item.Price = patch.Price;
+        item.PictureFileName = patch.PictureFileName;
+        item.PictureUri = patch.PictureUri;
+        item.AvailableStock = patch.AvailableStock;
+        item.TypeId = patch.TypeId;
+        item.BrandId = patch.BrandId;
+    }
 }
