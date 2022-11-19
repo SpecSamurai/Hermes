@@ -1,6 +1,6 @@
 using Hermes.Frameworks.Repositories.DataStructures;
 
-namespace RepositoriesTest;
+namespace Hermes.Frameworks.RepositoriesTest;
 
 public class PageTest
 {
