@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Linq.Expressions;
 using Hermes.Catalog.API.Entities;
+using Hermes.Frameworks.Repositories.DataStructures;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hermes.Catalog.API.Repositories.ItemTypes;
@@ -18,53 +19,55 @@ public class ItemTypeQueryRepository : IItemTypeQueryRepository
         CancellationToken cancellationToken = default) =>
             await _catelogContext.ItemTypes.SingleOrDefaultAsync(ItemType => ItemType.Id == id, cancellationToken);
 
-    public async Task<ItemType?> FindAsync(
+    public async Task<List<TResult>> GetListAsync<TResult>(
         Expression<Func<ItemType, bool>> predicate,
-        bool includeDetails = true,
-        CancellationToken cancellationToken = default) =>
-            await _catelogContext.ItemTypes.FirstOrDefaultAsync(predicate, cancellationToken);
-
-    public async Task<ItemType> GetAsync(
-        Guid id,
-        bool includeDetails = true,
-        CancellationToken cancellationToken = default) =>
-            await _catelogContext.ItemTypes.SingleAsync(ItemType => ItemType.Id == id, cancellationToken);
-
-    public async Task<ItemType> GetAsync(
-        Expression<Func<ItemType, bool>> predicate,
-        bool includeDetails = true,
-        CancellationToken cancellationToken = default) =>
-            await _catelogContext.ItemTypes.FirstAsync(predicate, cancellationToken);
-
-    public async Task<long> GetCountAsync(CancellationToken cancellationToken = default) =>
-        await _catelogContext.ItemTypes.LongCountAsync(cancellationToken);
-
-    public async Task<List<ItemType>> GetListAsync(
+        Expression<Func<ItemType, TResult>> selector,
         bool includeDetails = false,
         CancellationToken cancellationToken = default) =>
-            await _catelogContext.ItemTypes.ToListAsync(cancellationToken);
+            await _catelogContext.ItemTypes
+                .Where(predicate)
+                .Select(selector)
+                .ToListAsync(cancellationToken);
 
-    public async Task<List<ItemType>> GetListAsync(
-        Expression<Func<ItemType, bool>> predicate,
-        bool includeDetails = false,
-        CancellationToken cancellationToken = default) =>
-            await _catelogContext.ItemTypes.Where(predicate).ToListAsync(cancellationToken);
-
-    public async Task<List<ItemType>> GetPagedListAsync(
-        int skipCount,
-        int takeCount,
+    public async Task<List<TResult>> GetPageAsync<TResult>(
+        Offset offset,
+        Expression<Func<ItemType, TResult>> selector,
         string sorting,
         bool includeDetails = false,
         CancellationToken cancellationToken = default)
     {
         var property = TypeDescriptor.GetProperties(typeof(Item)).Find(sorting, ignoreCase: false);
 
-        var query = _catelogContext.ItemTypes.Skip(skipCount).Take(takeCount);
+        var query = property is not null
+            ? _catelogContext.ItemTypes.AsNoTracking()
+                .OrderBy(brand => property.GetValue(brand))
+            : _catelogContext.ItemTypes.AsNoTracking();
 
-        return property is not null
-            ? await query
-                .OrderBy(itemType => property.GetValue(itemType))
-                .ToListAsync(cancellationToken)
-            : await query.ToListAsync(cancellationToken);
+        return await query
+            .Select(selector)
+            .Skip(offset.Skip)
+            .Take(offset.Take)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<List<TResult>> GetPageAsync<TResult>(
+        Keyset<ItemType> keyset,
+        Expression<Func<ItemType, TResult>> selector,
+        string sorting,
+        bool includeDetails = false,
+        CancellationToken cancellationToken = default)
+    {
+        var property = TypeDescriptor.GetProperties(typeof(Item)).Find(sorting, ignoreCase: false);
+
+        var query = property is not null
+            ? _catelogContext.ItemTypes.AsNoTracking()
+                .OrderBy(brand => property.GetValue(brand))
+            : _catelogContext.ItemTypes.AsNoTracking();
+
+        return await query
+            .Where(keyset.Predicate)
+            .Take(keyset.Take)
+            .Select(selector)
+            .ToListAsync(cancellationToken);
     }
 }

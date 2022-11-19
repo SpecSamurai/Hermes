@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Linq.Expressions;
 using Hermes.Catalog.API.Entities;
+using Hermes.Frameworks.Repositories.DataStructures;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hermes.Catalog.API.Repositories.Brands;
@@ -18,53 +19,55 @@ public class BrandQueryRepository : IBrandQueryRepository
         CancellationToken cancellationToken = default) =>
             await _catelogContext.Brands.SingleOrDefaultAsync(Brand => Brand.Id == id, cancellationToken);
 
-    public async Task<Brand?> FindAsync(
+    public async Task<List<TResult>> GetListAsync<TResult>(
         Expression<Func<Brand, bool>> predicate,
-        bool includeDetails = true,
-        CancellationToken cancellationToken = default) =>
-            await _catelogContext.Brands.FirstOrDefaultAsync(predicate, cancellationToken);
-
-    public async Task<Brand> GetAsync(
-        Guid id,
-        bool includeDetails = true,
-        CancellationToken cancellationToken = default) =>
-            await _catelogContext.Brands.SingleAsync(Brand => Brand.Id == id, cancellationToken);
-
-    public async Task<Brand> GetAsync(
-        Expression<Func<Brand, bool>> predicate,
-        bool includeDetails = true,
-        CancellationToken cancellationToken = default) =>
-            await _catelogContext.Brands.FirstAsync(predicate, cancellationToken);
-
-    public async Task<long> GetCountAsync(CancellationToken cancellationToken = default) =>
-        await _catelogContext.Brands.LongCountAsync(cancellationToken);
-
-    public async Task<List<Brand>> GetListAsync(
+        Expression<Func<Brand, TResult>> selector,
         bool includeDetails = false,
         CancellationToken cancellationToken = default) =>
-            await _catelogContext.Brands.ToListAsync(cancellationToken);
+            await _catelogContext.Brands
+                .Where(predicate)
+                .Select(selector)
+                .ToListAsync(cancellationToken);
 
-    public async Task<List<Brand>> GetListAsync(
-        Expression<Func<Brand, bool>> predicate,
-        bool includeDetails = false,
-        CancellationToken cancellationToken = default) =>
-            await _catelogContext.Brands.Where(predicate).ToListAsync(cancellationToken);
-
-    public async Task<List<Brand>> GetPagedListAsync(
-        int skipCount,
-        int takeCount,
+    public async Task<List<TResult>> GetPageAsync<TResult>(
+        Offset offset,
+        Expression<Func<Brand, TResult>> selector,
         string sorting,
         bool includeDetails = false,
         CancellationToken cancellationToken = default)
     {
         var property = TypeDescriptor.GetProperties(typeof(Item)).Find(sorting, ignoreCase: false);
 
-        var query = _catelogContext.Brands.Skip(skipCount).Take(takeCount);
-
-        return property is not null
-            ? await query
+        var query = property is not null
+            ? _catelogContext.Brands.AsNoTracking()
                 .OrderBy(brand => property.GetValue(brand))
-                .ToListAsync(cancellationToken)
-            : await query.ToListAsync(cancellationToken);
+            : _catelogContext.Brands.AsNoTracking();
+
+        return await query
+            .Select(selector)
+            .Skip(offset.Skip)
+            .Take(offset.Take)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<List<TResult>> GetPageAsync<TResult>(
+        Keyset<Brand> keyset,
+        Expression<Func<Brand, TResult>> selector,
+        string sorting,
+        bool includeDetails = false,
+        CancellationToken cancellationToken = default)
+    {
+        var property = TypeDescriptor.GetProperties(typeof(Item)).Find(sorting, ignoreCase: false);
+
+        var query = property is not null
+            ? _catelogContext.Brands.AsNoTracking()
+                .OrderBy(brand => property.GetValue(brand))
+            : _catelogContext.Brands.AsNoTracking();
+
+        return await query
+            .Where(keyset.Predicate)
+            .Take(keyset.Take)
+            .Select(selector)
+            .ToListAsync(cancellationToken);
     }
 }

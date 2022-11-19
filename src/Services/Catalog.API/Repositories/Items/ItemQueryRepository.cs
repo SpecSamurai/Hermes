@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Linq.Expressions;
 using Hermes.Catalog.API.Entities;
+using Hermes.Frameworks.Repositories.DataStructures;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hermes.Catalog.API.Repositories.Items;
@@ -21,54 +22,18 @@ public class ItemQueryRepository : IItemQueryRepository
             : await _catelogContext.Items
                 .SingleOrDefaultAsync(item => item.Id == id, cancellationToken);
 
-    public async Task<Item?> FindAsync(
+    public async Task<List<TResult>> GetListAsync<TResult>(
         Expression<Func<Item, bool>> predicate,
-        bool includeDetails = true,
-        CancellationToken cancellationToken = default) =>
-            includeDetails
-                ? await _catelogContext.Items
-                    .Include(item => item.Brand)
-                    .Include(item => item.Type)
-                    .FirstOrDefaultAsync(predicate, cancellationToken)
-                : await _catelogContext.Items
-                    .FirstOrDefaultAsync(predicate, cancellationToken);
-
-    public async Task<Item> GetAsync(Guid id, bool includeDetails = true, CancellationToken cancellationToken = default) =>
-        includeDetails
-            ? await _catelogContext.Items
-                .Include(item => item.Brand)
-                .Include(item => item.Type)
-                .SingleAsync(item => item.Id == id, cancellationToken)
-            : await _catelogContext.Items
-                .SingleAsync(item => item.Id == id, cancellationToken);
-
-    public async Task<Item> GetAsync(
-        Expression<Func<Item, bool>> predicate,
-        bool includeDetails = true,
-        CancellationToken cancellationToken = default) =>
-            includeDetails
-                ? await _catelogContext.Items
-                    .Include(item => item.Brand)
-                    .Include(item => item.Type)
-                    .FirstAsync(predicate, cancellationToken)
-                : await _catelogContext.Items
-                    .FirstAsync(predicate, cancellationToken);
-
-    public async Task<long> GetCountAsync(CancellationToken cancellationToken = default) =>
-        await _catelogContext.Items.LongCountAsync(cancellationToken);
-
-    public async Task<List<Item>> GetListAsync(
+        Expression<Func<Item, TResult>> selector,
         bool includeDetails = false,
         CancellationToken cancellationToken = default) =>
-            await _catelogContext.Items.ToListAsync(cancellationToken);
+            await _catelogContext.Items
+                .Where(predicate)
+                .Select(selector)
+                .ToListAsync(cancellationToken);
 
-    public async Task<List<Item>> GetListAsync(
-        Expression<Func<Item, bool>> predicate,
-        bool includeDetails = false,
-        CancellationToken cancellationToken = default) =>
-            await _catelogContext.Items.Where(predicate).ToListAsync(cancellationToken);
-
-    public async Task<List<Item>> GetPagedListAsync(
+    public async Task<List<TResult>> GetPagedListAsync<TResult>(
+        Expression<Func<Item, TResult>> selector,
         int skipCount,
         int takeCount,
         string sorting,
@@ -90,7 +55,66 @@ public class ItemQueryRepository : IItemQueryRepository
         return property is not null
             ? await query
                 .OrderBy(item => property.GetValue(item))
+                .Select(selector)
                 .ToListAsync(cancellationToken)
-            : await query.ToListAsync(cancellationToken);
+            : await query.Select(selector).ToListAsync(cancellationToken);
+    }
+
+    public async Task<List<TResult>> GetPageAsync<TResult>(
+        Offset offset,
+        Expression<Func<Item, TResult>> selector,
+        string sorting,
+        bool includeDetails = false,
+        CancellationToken cancellationToken = default)
+    {
+        var property = TypeDescriptor.GetProperties(typeof(Item)).Find(sorting, ignoreCase: false);
+
+        var query = includeDetails
+            ? _catelogContext.Items
+                .Include(item => item.Brand)
+                .Include(item => item.Type)
+                .Skip(offset.Skip)
+                .Take(offset.Take)
+            : _catelogContext.Items
+                .Skip(offset.Skip)
+                .Take(offset.Take);
+
+        return property is not null
+            ? await query
+                .OrderBy(item => property.GetValue(item))
+                .Select(selector)
+                .ToListAsync(cancellationToken)
+            : await query
+                .Select(selector)
+                .ToListAsync(cancellationToken);
+    }
+
+    public async Task<List<TResult>> GetPageAsync<TResult>(
+        Keyset<Item> keyset,
+        Expression<Func<Item, TResult>> selector,
+        string sorting,
+        bool includeDetails = false,
+        CancellationToken cancellationToken = default)
+    {
+        var property = TypeDescriptor.GetProperties(typeof(Item)).Find(sorting, ignoreCase: false);
+
+        var query = includeDetails
+            ? _catelogContext.Items
+                .Include(item => item.Brand)
+                .Include(item => item.Type)
+                .Where(keyset.Predicate)
+                .Take(keyset.Take)
+            : _catelogContext.Items
+                .Where(keyset.Predicate)
+                .Take(keyset.Take);
+
+        return property is not null
+            ? await query
+                .OrderBy(item => property.GetValue(item))
+                .Select(selector)
+                .ToListAsync(cancellationToken)
+            : await query
+                .Select(selector)
+                .ToListAsync(cancellationToken);
     }
 }
