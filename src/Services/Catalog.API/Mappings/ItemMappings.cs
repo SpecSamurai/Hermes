@@ -1,14 +1,16 @@
 using Hermes.Catalog.API.Entities;
 using Hermes.Catalog.API.Requests.Items;
 using Hermes.Catalog.API.Responses;
+using Hermes.Catalog.API.Responses.Items;
 
 namespace Hermes.Catalog.API.Mappings;
 
 public static class ItemMappings
 {
-    public static ItemGetResponse ToItemGetResponse(this Item item) =>
+    public static DetailedItemGetResponse ToDetailedItemGetResponse(this Item item) =>
         new()
         {
+            Id = item.Id,
             Name = item.Name,
             Description = item.Description,
             Price = item.Price,
@@ -16,9 +18,22 @@ public static class ItemMappings
             PictureUri = item.PictureUri,
             AvailableStock = item.AvailableStock,
             OnReorder = item.OnReorder,
-            Type = item.Type?.ToItemTypeGetResponse(),
+            Type = item.Type!.ToItemTypeGetResponse(),
+            Brand = item.Brand!.ToBrandGetResponse()
+        };
+
+    public static ItemGetResponse ToItemGetResponse(this Item item) =>
+        new()
+        {
+            Id = item.Id,
+            Name = item.Name,
+            Description = item.Description,
+            Price = item.Price,
+            PictureFileName = item.PictureFileName,
+            PictureUri = item.PictureUri,
+            AvailableStock = item.AvailableStock,
+            OnReorder = item.OnReorder,
             TypeId = item.TypeId,
-            Brand = item.Brand?.ToBrandGetResponse(),
             BrandId = item.BrandId
         };
 

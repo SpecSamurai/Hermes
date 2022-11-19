@@ -9,6 +9,7 @@ public static class BrandMappings
     public static BrandGetResponse ToBrandGetResponse(this Brand brand) =>
         new()
         {
+            Id = brand.Id,
             Name = brand.Name
         };
 

@@ -9,6 +9,7 @@ public static class ItemTypeMappings
     public static ItemTypeGetResponse ToItemTypeGetResponse(this ItemType itemType) =>
         new()
         {
+            Id = itemType.Id,
             Name = itemType.Name
         };
 
