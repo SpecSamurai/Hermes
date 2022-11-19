@@ -7,19 +7,19 @@ namespace Hermes.Catalog.API.Entities;
 
 public class Item : Entity
 {
-    [MaxLength(255, ErrorMessage = ErrorCodes.Items.InvalidName)]
+    [MaxLength(256, ErrorMessage = ErrorCodes.Items.InvalidName)]
     public string Name { get; set; } = string.Empty;
 
     [MaxLength(512, ErrorMessage = ErrorCodes.Items.InvalidDescription)]
     public string? Description { get; set; }
 
-    [Precision(10, 2)]
+    [Precision(19, 4)]
     public decimal Price { get; set; }
 
-    [MaxLength(255, ErrorMessage = ErrorCodes.Items.InvalidPictureFileName)]
+    [MaxLength(256, ErrorMessage = ErrorCodes.Items.InvalidPictureFileName)]
     public string? PictureFileName { get; set; }
 
-    [MaxLength(255, ErrorMessage = ErrorCodes.Items.InvalidPictureUri)]
+    [MaxLength(256, ErrorMessage = ErrorCodes.Items.InvalidPictureUri)]
     public string? PictureUri { get; set; }
 
     [Range(0, int.MaxValue, ErrorMessage = ErrorCodes.Items.InvalidAvailableStock)]

@@ -11,13 +11,13 @@ public abstract class Entity
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
-    [MaxLength(255)]
+    [MaxLength(256)]
     public string CreatedBy { get; set; } = string.Empty;
 
     [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public DateTime LastModifiedOn { get; set; }
 
-    [MaxLength(255)]
+    [MaxLength(256)]
     public string LastModifiedBy { get; set; } = string.Empty;
 
     [Timestamp]
