@@ -4,8 +4,8 @@ using Hermes.Frameworks.Repositories.Query;
 namespace Hermes.Catalog.API.Repositories.Items;
 
 public interface IItemQueryRepository :
-    IGetByIdQueryRepository<Guid, Item>,
-    IGetByPredicateQueryRepository<Item>,
-    IListQueryRepository<Item>
+    IGetByIdNullableQueryRepository<Guid, Item>,
+    IListQueryRepository<Item>,
+    IPaginationQueryRepository<Item>
 {
 }
