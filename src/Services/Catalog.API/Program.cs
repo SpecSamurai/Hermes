@@ -2,7 +2,6 @@ using Hermes.Catalog.API;
 using Hermes.Catalog.API.Constants;
 using Microsoft.OpenApi.Models;
 using Hermes.Catalog.API.Extensions;
-using Microsoft.EntityFrameworkCore;
 using Hermes.Catalog.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,32 +11,22 @@ if (builder.Environment.IsDevelopment())
     builder.Configuration.AddJsonFile("appsettings.User.json", optional: true, reloadOnChange: true);
 }
 
-using (var catalogContext = new CatalogContext(
-    new DbContextOptionsBuilder<CatalogContext>()
-        .UseSqlServer(builder.Configuration.GetConnectionString(nameof(CatalogContext)))
-        .Options))
-{
-    catalogContext.Database.EnsureCreated();
-
-    // var pendingMigrations = await catalogContext.Database.GetPendingMigrationsAsync();
-    // if (pendingMigrations.Any())
-    //     await catalogContext.Database.MigrateAsync();
-
-    await catalogContext.SeedAsync();
-}
-
-builder.Host
-    .UseNServiceBus()
-    .AddDbContext(builder.Environment);
+builder.Host.UseNServiceBus();
 
 builder.Services
+    .AddDbContext(builder.Environment)
     .AddCustomOptions()
     .AddDependencies();
 
-builder.Services.AddControllers();
+builder.Services
+    .AddControllers()
+    .AddNewtonsoftJson();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
+    options.SupportNonNullableReferenceTypes();
+
     options.SwaggerDoc(
         ApiSettings.ApiVersion1,
         new OpenApiInfo
@@ -56,6 +45,9 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+
+using (var catalogContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<CatalogContext>())
+    await catalogContext.EnsureInitializedDatabaseAsync();
 
 app.UseMiddleware<MessageSessionMiddleware>();
 app.UseRouting();
