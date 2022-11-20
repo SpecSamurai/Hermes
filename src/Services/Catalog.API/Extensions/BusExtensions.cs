@@ -1,9 +1,8 @@
 using System.Data.SqlClient;
 using Hermes.Catalog.API.Options;
 using Microsoft.EntityFrameworkCore;
-using NServiceBus;
-using NServiceBus.Persistence.Sql;
 using NServiceBus.TransactionalSession;
+using Hermes.Catalog.API.Constants;
 
 namespace Hermes.Catalog.API.Extensions;
 
@@ -15,7 +14,7 @@ public static class BusExtensions
             var busOptions = context
                 .Configuration
                 .GetRequiredSection(nameof(BusOptions))
-                .Get<BusOptions>();
+                .Get<BusOptions>() ?? throw new NullReferenceException(ErrorCodes.Bus.InvalidBusOptions);
 
             var endpointConfiguration = new EndpointConfiguration(typeof(Program).Assembly.GetName().Name);
             endpointConfiguration.LicensePath(busOptions.LicensePath);
@@ -43,43 +42,11 @@ public static class BusExtensions
             endpointConfiguration.EnableInstallers();
             endpointConfiguration.AuditProcessedMessagesTo("audit");
 
-            endpointConfiguration
-                .Conventions()
-                .DefiningEventsAs(eventType =>
-                    eventType.Namespace != null && eventType.Name.EndsWith("IntegrationEvent"));
+            // endpointConfiguration
+            //     .Conventions()
+            //     .DefiningEventsAs(eventType =>
+            //         eventType.Namespace != null && eventType.Name.EndsWith("IntegrationEvent"));
 
             return endpointConfiguration;
-        });
-
-    public static IHostBuilder AddDbContext(this IHostBuilder hostBuilder, IWebHostEnvironment environment) =>
-        hostBuilder.ConfigureServices(serviceCollection =>
-        {
-            serviceCollection.AddScoped<CatalogContext>(serviceProvider =>
-            {
-                var sqlStorageSession = serviceProvider.GetRequiredService<ISqlStorageSession>();
-
-                var optionsBuilder = new DbContextOptionsBuilder<CatalogContext>()
-                    .UseSqlServer(
-                        sqlStorageSession.Connection,
-                        sqlServerOptions =>
-                        {
-                            sqlServerOptions.MigrationsAssembly(typeof(Program).Assembly.FullName);
-                            // sqlServerOptions.EnableRetryOnFailure();
-                        }
-                    );
-
-                if (environment.IsDevelopment())
-                {
-                    optionsBuilder.EnableDetailedErrors();
-                    optionsBuilder.EnableSensitiveDataLogging();
-                }
-
-                var catalogContext = new CatalogContext(optionsBuilder.Options);
-                catalogContext.Database.UseTransaction(sqlStorageSession.Transaction);
-
-                sqlStorageSession.OnSaveChanges(_ => catalogContext.SaveChangesAsync());
-
-                return catalogContext;
-            });
         });
 }
