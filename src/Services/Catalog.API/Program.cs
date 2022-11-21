@@ -67,10 +67,7 @@ app.UseSwaggerUI(options =>
         $"{ApiSettings.ApiTitle} {ApiSettings.ApiVersion2}");
 });
 
-app.UseEndpoints(configure =>
-{
-    configure.MapControllers();
-    configure.MapSwagger();
-});
+app.MapControllers();
+app.MapSwagger();
 
 app.Run();
