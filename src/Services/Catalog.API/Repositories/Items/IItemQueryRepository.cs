@@ -5,7 +5,7 @@ namespace Hermes.Catalog.API.Repositories.Items;
 
 public interface IItemQueryRepository :
     IGetByIdNullableQueryRepository<Guid, Item>,
-    IListQueryRepository<Item>,
+    IListByIdQueryRepository<Guid, Item>,
     IPaginationQueryRepository<Item>
 {
 }

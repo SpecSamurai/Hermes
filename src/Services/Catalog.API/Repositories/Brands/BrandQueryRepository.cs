@@ -20,12 +20,12 @@ public class BrandQueryRepository : IBrandQueryRepository
             await _catelogContext.Brands.SingleOrDefaultAsync(Brand => Brand.Id == id, cancellationToken);
 
     public async Task<List<TResult>> GetListAsync<TResult>(
-        Expression<Func<Brand, bool>> predicate,
+        IEnumerable<Guid> ids,
         Expression<Func<Brand, TResult>> selector,
         bool includeDetails = false,
         CancellationToken cancellationToken = default) =>
             await _catelogContext.Brands
-                .Where(predicate)
+                .Where(brand => ids.Contains(brand.Id))
                 .Select(selector)
                 .ToListAsync(cancellationToken);
 

@@ -5,7 +5,7 @@ namespace Hermes.Catalog.API.Repositories.Brands;
 
 public interface IBrandQueryRepository :
     IGetByIdNullableQueryRepository<Guid, Brand>,
-    IListQueryRepository<Brand>,
+    IListByIdQueryRepository<Guid, Brand>,
     IPaginationQueryRepository<Brand>
 {
 }

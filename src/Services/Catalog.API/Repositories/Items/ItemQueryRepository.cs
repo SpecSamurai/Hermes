@@ -23,42 +23,14 @@ public class ItemQueryRepository : IItemQueryRepository
                 .SingleOrDefaultAsync(item => item.Id == id, cancellationToken);
 
     public async Task<List<TResult>> GetListAsync<TResult>(
-        Expression<Func<Item, bool>> predicate,
+        IEnumerable<Guid> ids,
         Expression<Func<Item, TResult>> selector,
         bool includeDetails = false,
         CancellationToken cancellationToken = default) =>
             await _catelogContext.Items
-                .Where(predicate)
+                .Where(item => ids.Contains(item.Id))
                 .Select(selector)
                 .ToListAsync(cancellationToken);
-
-    public async Task<List<TResult>> GetPagedListAsync<TResult>(
-        Expression<Func<Item, TResult>> selector,
-        int skipCount,
-        int takeCount,
-        string sorting,
-        bool includeDetails = false,
-        CancellationToken cancellationToken = default)
-    {
-        var property = TypeDescriptor.GetProperties(typeof(Item)).Find(sorting, ignoreCase: false);
-
-        var query = includeDetails
-            ? _catelogContext.Items
-                .Include(item => item.Brand)
-                .Include(item => item.Type)
-                .Skip(skipCount)
-                .Take(takeCount)
-            : _catelogContext.Items
-                .Skip(skipCount)
-                .Take(takeCount);
-
-        return property is not null
-            ? await query
-                .OrderBy(item => property.GetValue(item))
-                .Select(selector)
-                .ToListAsync(cancellationToken)
-            : await query.Select(selector).ToListAsync(cancellationToken);
-    }
 
     public async Task<List<TResult>> GetPageAsync<TResult>(
         Offset offset,

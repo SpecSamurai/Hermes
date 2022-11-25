@@ -20,12 +20,12 @@ public class ItemTypeQueryRepository : IItemTypeQueryRepository
             await _catelogContext.ItemTypes.SingleOrDefaultAsync(ItemType => ItemType.Id == id, cancellationToken);
 
     public async Task<List<TResult>> GetListAsync<TResult>(
-        Expression<Func<ItemType, bool>> predicate,
+        IEnumerable<Guid> ids,
         Expression<Func<ItemType, TResult>> selector,
         bool includeDetails = false,
         CancellationToken cancellationToken = default) =>
             await _catelogContext.ItemTypes
-                .Where(predicate)
+                .Where(itemType => ids.Contains(itemType.Id))
                 .Select(selector)
                 .ToListAsync(cancellationToken);
 
