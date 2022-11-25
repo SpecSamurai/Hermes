@@ -2,10 +2,10 @@
 
 namespace Hermes.Frameworks.Repositories.Query;
 
-public interface IListQueryRepository<TEntity>
+public interface IListByIdQueryRepository<TKey, TEntity>
 {
     Task<List<TResult>> GetListAsync<TResult>(
-        Expression<Func<TEntity, bool>> predicate,
+        IEnumerable<TKey> ids,
         Expression<Func<TEntity, TResult>> selector,
         bool includeDetails = false,
         CancellationToken cancellationToken = default);
