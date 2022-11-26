@@ -39,8 +39,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Frameworks\Specifications\Specifications.csproj" />
-    <ProjectReference Include="..\..\Frameworks\Repositories\Repositories.csproj" />
+    <ProjectReference Include="..\..\..\Frameworks\Specifications\Specifications.csproj" />
+    <ProjectReference Include="..\..\..\Frameworks\Repositories\Repositories.csproj" />
   </ItemGroup>
 
 </Project>

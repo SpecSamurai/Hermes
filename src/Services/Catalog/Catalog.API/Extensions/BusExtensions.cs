@@ -16,19 +16,13 @@ public static class BusExtensions
                 .GetRequiredSection(nameof(BusOptions))
                 .Get<BusOptions>() ?? throw new NullReferenceException(ErrorCodes.Bus.InvalidBusOptions);
 
-            var endpointConfiguration = new EndpointConfiguration(typeof(Program).Assembly.GetName().Name);
+            var endpointConfiguration = new EndpointConfiguration(busOptions.EndpointName);
             endpointConfiguration.LicensePath(busOptions.LicensePath);
 
             endpointConfiguration
                 .UseTransport<RabbitMQTransport>()
                 .UseConventionalRoutingTopology(QueueType.Quorum)
                 .ConnectionString(busOptions.ConnectionString);
-
-            // endpointConfiguration.Recoverability().Delayed(delayedRetriesSettings =>
-            // {
-            //     delayedRetriesSettings.NumberOfRetries(6);
-            //     delayedRetriesSettings.TimeIncrease(TimeSpan.FromSeconds(1));
-            // });
 
             var persistence = endpointConfiguration.UsePersistence<SqlPersistence>();
             persistence.SqlDialect<SqlDialect.MsSqlServer>();
@@ -40,12 +34,8 @@ public static class BusExtensions
             endpointConfiguration.EnableOutbox();
 
             endpointConfiguration.EnableInstallers();
+            endpointConfiguration.SendFailedMessagesTo("error");
             endpointConfiguration.AuditProcessedMessagesTo("audit");
-
-            // endpointConfiguration
-            //     .Conventions()
-            //     .DefiningEventsAs(eventType =>
-            //         eventType.Namespace != null && eventType.Name.EndsWith("IntegrationEvent"));
 
             return endpointConfiguration;
         });

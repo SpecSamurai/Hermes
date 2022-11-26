@@ -9,7 +9,7 @@ ARG CONFIGURATION
 WORKDIR /src
 COPY . .
 RUN dotnet restore
-WORKDIR /src/src/Services/Catalog.API
+WORKDIR /src/src/Services/Catalog/Catalog.API
 RUN dotnet publish "Catalog.API.csproj" --configuration ${CONFIGURATION} --output /app/publish /p:UseAppHost=false
 
 FROM base AS final
