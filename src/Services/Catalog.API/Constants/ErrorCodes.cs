@@ -17,6 +17,8 @@ internal static class ErrorCodes
         public const string InvalidPictureFileName = $"{nameof(Item)}:{nameof(InvalidPictureFileName)}";
         public const string InvalidPictureUri = $"{nameof(Item)}:{nameof(InvalidPictureUri)}";
         public const string InvalidAvailableStock = $"{nameof(Item)}:{nameof(InvalidAvailableStock)}";
+
+        public const string NotEnoughStock = $"{nameof(Item)}:{nameof(NotEnoughStock)}";
     }
 
     internal static class Brands
