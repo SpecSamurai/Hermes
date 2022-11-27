@@ -6,5 +6,8 @@ services:
   catalog-sql:
     image: mcr.microsoft.com/azure-sql-edge:latest
 
+  basket-redis:
+    image: redis/redis-stack:latest
+
   rabbitmq:
     image: rabbitmq:management

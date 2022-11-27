@@ -39,6 +39,14 @@ services:
       ACCEPT_EULA: 1
       MSSQL_PID: Developer # Default is 'Developer'
 
+  basket-redis:
+    container_name: basket-redis
+    restart: on-failure:3
+    hostname: basket-redis
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+
   rabbitmq:
     container_name: rabbitmq
     ports:
