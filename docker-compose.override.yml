@@ -39,27 +39,6 @@ services:
       ACCEPT_EULA: 1
       MSSQL_PID: Developer # Default is 'Developer'
 
-  catalog-api:
-    container_name: catalog-api
-    build:
-      args:
-        CONFIGURATION: Debug
-    restart: on-failure:3
-    expose:
-      - 80
-    ports:
-      - "5101:80"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80 # ASPNETCORE_URLS=https://+:443;http://+:80
-
-      - ConnectionStrings__CatalogContext=Server=catalog-sql,1433;Database=master;User Id=${CATALOG_API_MSSQL_USERNAME};Password=${CATALOG_API_MSSQL_SA_PASSWORD}
-
-      - BusOptions__Host=rabbitmq
-      - BusOptions__Username=${BUSOPTIONS_USERNAME}
-      - BusOptions__Password=${BUSOPTIONS_PASSWORD}
-      - BusOptions__LicensePath=License.xml
-
   rabbitmq:
     container_name: rabbitmq
     ports:
