@@ -61,10 +61,6 @@
             "icon": {
                 "id": "arrow-up"
             },
-            "dependsOn": [
-                "test"
-            ],
-            "dependsOrder": "sequence",
             "dockerCompose": {
                 "up": {
                     "detached": true,
