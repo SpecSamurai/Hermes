@@ -2,9 +2,7 @@
 
 net_version="7.0"
 context=$(pwd)
-dockerfiles=(
-    "src/Services/Catalog/Catalog.API/Dockerfile"
-)
+dockerfiles=(`find . -name Dockerfile`)
 
 for dockerfile in "${dockerfiles[@]}"
 do
