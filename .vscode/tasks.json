@@ -10,7 +10,8 @@
             "isBuildCommand": true,
             "type": "process",
             "icon": {
-                "id": "extensions"
+                "id": "extensions",
+                "color": "terminal.ansiYellow"
             },
             "args": [
                 "build",
@@ -34,7 +35,8 @@
             "isTestCommand": true,
             "type": "process",
             "icon": {
-                "id": "beaker"
+                "id": "beaker",
+                "color": "terminal.ansiMagenta"
             },
             "dependsOn": [
                 "build"
@@ -57,9 +59,11 @@
         },
         {
             "label": "docker-compose up",
+            "detail": "Set up local infrastructure",
             "type": "docker-compose",
             "icon": {
-                "id": "arrow-up"
+                "id": "arrow-up",
+                "color": "terminal.ansiGreen"
             },
             "dockerCompose": {
                 "up": {
@@ -82,9 +86,11 @@
         },
         {
             "label": "docker-compose down",
+            "detail": "Destroy local infrastructure",
             "type": "docker-compose",
             "icon": {
-                "id": "arrow-down"
+                "id": "arrow-down",
+                "color": "terminal.ansiRed"
             },
             "dockerCompose": {
                 "down": {
@@ -95,6 +101,31 @@
                     "${workspaceFolder}/docker-compose.yml"
                 ]
             },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "build images",
+            "detail": "Build docker images",
+            "type": "shell",
+            "icon": {
+                "id": "package",
+                "color": "terminal.ansiBlue"
+            },
+            "dependsOn": [
+                "test"
+            ],
+            "dependsOrder": "sequence",
+            "command": [
+                "sh ${workspaceFolder}/build/build-images.sh"
+            ],
+            "problemMatcher": [],
             "presentation": {
                 "echo": true,
                 "reveal": "always",
