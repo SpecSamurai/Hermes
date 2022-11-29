@@ -9,6 +9,7 @@ if (builder.Environment.IsDevelopment())
 }
 
 builder.Services
+    .AddRedisConnectionMultiplexer()
     .AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
