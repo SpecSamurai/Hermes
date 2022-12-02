@@ -1,4 +1,3 @@
-using Hermes.Catalog.API;
 using Hermes.Catalog.API.Constants;
 using Microsoft.OpenApi.Models;
 using Hermes.Catalog.API.Extensions;
@@ -46,8 +45,7 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-using (var catalogContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<CatalogContext>())
-    await catalogContext.EnsureInitializedDatabaseAsync();
+await app.EnsureInitializedDatabaseAsync();
 
 app.UseMiddleware<MessageSessionMiddleware>();
 app.UseRouting();
