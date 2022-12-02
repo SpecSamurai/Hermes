@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Catalog.API.Migrations
 {
     [DbContext(typeof(CatalogContext))]
-    [Migration("20221120190508_Initial")]
+    [Migration("20221202132824_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
