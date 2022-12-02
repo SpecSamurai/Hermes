@@ -1,4 +1,3 @@
-using System.Data.SqlClient;
 using Hermes.Catalog.API;
 using Hermes.Catalog.API.Options;
 using Hermes.Catalog.API.Repositories.Brands;
@@ -15,17 +14,13 @@ public static class ServiceCollectionExtenstions
         serviceCollection.AddScoped<CatalogContext>(serviceProvider =>
         {
             var sqlStorageSession = serviceProvider.GetRequiredService<ISqlStorageSession>();
-            var connectionString = serviceProvider
-                .GetRequiredService<IConfiguration>()
-                .GetConnectionString(nameof(CatalogContext));
 
             var optionsBuilder = new DbContextOptionsBuilder<CatalogContext>()
                 .UseSqlServer(
-                    sqlStorageSession.Connection ?? new SqlConnection(connectionString),
+                    sqlStorageSession.Connection,
                     sqlServerOptions =>
                     {
                         sqlServerOptions.MigrationsAssembly(typeof(Program).Assembly.FullName);
-                        // sqlServerOptions.EnableRetryOnFailure();
                     }
                 );
 
