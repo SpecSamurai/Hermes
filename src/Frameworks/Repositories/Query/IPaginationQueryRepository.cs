@@ -10,12 +10,12 @@ public interface IPaginationQueryRepository<TEntity>
         Expression<Func<TEntity, TResult>> selector,
         string sorting,
         bool includeDetails = false,
-        CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default) where TResult : notnull;
 
     Task<List<TResult>> GetPageAsync<TResult>(
         Keyset<TEntity> keyset,
         Expression<Func<TEntity, TResult>> selector,
         string sorting,
         bool includeDetails = false,
-        CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default) where TResult : notnull;
 }

@@ -34,7 +34,7 @@ public class ItemTypeQueryRepository : IItemTypeQueryRepository
         Expression<Func<ItemType, TResult>> selector,
         string sorting,
         bool includeDetails = false,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default) where TResult : notnull
     {
         var property = TypeDescriptor.GetProperties(typeof(Item)).Find(sorting, ignoreCase: false);
 
@@ -55,7 +55,7 @@ public class ItemTypeQueryRepository : IItemTypeQueryRepository
         Expression<Func<ItemType, TResult>> selector,
         string sorting,
         bool includeDetails = false,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default) where TResult : notnull
     {
         var property = TypeDescriptor.GetProperties(typeof(Item)).Find(sorting, ignoreCase: false);
 

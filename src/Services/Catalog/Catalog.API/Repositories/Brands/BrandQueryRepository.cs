@@ -30,11 +30,11 @@ public class BrandQueryRepository : IBrandQueryRepository
                 .ToListAsync(cancellationToken);
 
     public async Task<List<TResult>> GetPageAsync<TResult>(
-        Offset offset,
-        Expression<Func<Brand, TResult>> selector,
-        string sorting,
-        bool includeDetails = false,
-        CancellationToken cancellationToken = default)
+       Offset offset,
+       Expression<Func<Brand, TResult>> selector,
+       string sorting,
+       bool includeDetails = false,
+       CancellationToken cancellationToken = default) where TResult : notnull
     {
         var property = TypeDescriptor.GetProperties(typeof(Item)).Find(sorting, ignoreCase: false);
 
@@ -55,7 +55,7 @@ public class BrandQueryRepository : IBrandQueryRepository
         Expression<Func<Brand, TResult>> selector,
         string sorting,
         bool includeDetails = false,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default) where TResult : notnull
     {
         var property = TypeDescriptor.GetProperties(typeof(Item)).Find(sorting, ignoreCase: false);
 
