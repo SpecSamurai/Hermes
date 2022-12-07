@@ -18,15 +18,15 @@ public class BrandsQueryController : ControllerBase
     public BrandsQueryController(IBasketQueryRepository basketQueryRepository) =>
         _basketQueryRepository = basketQueryRepository;
 
-    [HttpGet("{customerId:guid}")]
+    [HttpGet("{id:guid}")]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(typeof(CustomerBasketGetResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetByIdAsync(Guid customerId)
+    public async Task<IActionResult> GetByIdAsync(Guid id)
     {
-        var basket = await _basketQueryRepository.FindAsync(customerId);
+        var basket = await _basketQueryRepository.FindAsync(id);
 
         return basket is not null
             ? Ok(basket.ToCustomerBasketGetResponse())
