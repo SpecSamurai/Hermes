@@ -1,6 +1,6 @@
 namespace Hermes.Basket.API.Requests;
 
-public class BasketItemPatchRequest
+public class BasketItemPostRequest
 {
     public Guid ProductId { get; init; }
     public required string ProductName { get; init; }
