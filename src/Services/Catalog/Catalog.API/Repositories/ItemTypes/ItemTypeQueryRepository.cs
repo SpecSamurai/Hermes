@@ -29,7 +29,7 @@ public class ItemTypeQueryRepository : IItemTypeQueryRepository
                 .Select(selector)
                 .ToListAsync(cancellationToken);
 
-    public async Task<List<TResult>> GetPageAsync<TResult>(
+    public async Task<IList<TResult>> GetPageAsync<TResult>(
         Offset offset,
         Expression<Func<ItemType, TResult>> selector,
         string sorting,
@@ -50,7 +50,7 @@ public class ItemTypeQueryRepository : IItemTypeQueryRepository
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<List<TResult>> GetPageAsync<TResult>(
+    public async Task<IList<TResult>> GetPageAsync<TResult>(
         Keyset<ItemType> keyset,
         Expression<Func<ItemType, TResult>> selector,
         string sorting,

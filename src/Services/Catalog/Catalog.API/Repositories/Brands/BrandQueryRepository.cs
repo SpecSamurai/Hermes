@@ -29,7 +29,7 @@ public class BrandQueryRepository : IBrandQueryRepository
                 .Select(selector)
                 .ToListAsync(cancellationToken);
 
-    public async Task<List<TResult>> GetPageAsync<TResult>(
+    public async Task<IList<TResult>> GetPageAsync<TResult>(
        Offset offset,
        Expression<Func<Brand, TResult>> selector,
        string sorting,
@@ -50,7 +50,7 @@ public class BrandQueryRepository : IBrandQueryRepository
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<List<TResult>> GetPageAsync<TResult>(
+    public async Task<IList<TResult>> GetPageAsync<TResult>(
         Keyset<Brand> keyset,
         Expression<Func<Brand, TResult>> selector,
         string sorting,
