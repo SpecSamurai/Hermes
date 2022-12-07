@@ -9,8 +9,10 @@ if (builder.Environment.IsDevelopment())
 }
 
 builder.Services
-    .AddRedisConnectionMultiplexer()
-    .AddControllers();
+    .AddDependencies()
+    .AddRedisConnectionProvider()
+    .AddControllers()
+    .AddNewtonsoftJson();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
