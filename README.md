@@ -4,13 +4,15 @@
 ## Application settings and environmental variables
 ### Catalog API
 - ASPNETCORE_ENVIRONMENT=[Development|Production]
-
 - ConnectionStrings__CatalogContext
-
 - BusOptions__Host
 - BusOptions__Username
 - BusOptions__Password
 - BusOptions__LicensePath
+
+### Basket API
+- ASPNETCORE_ENVIRONMENT=[Development|Production]
+- ConnectionStrings__BasketDatabase
 
 ## Useful commands
 - `dotnet ef migrations add Initial --output-dir ./Migrations`
@@ -35,6 +37,7 @@
 - Docker
 - Kubernetes
 - Helm Charts
+- Redis Stack
 
 ## Versioning
 A version must follow the [SemVer 2](https://semver.org/spec/v2.0.0.html) standard.
