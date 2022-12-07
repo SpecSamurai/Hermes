@@ -1,11 +1,12 @@
+using Redis.OM.Modeling;
+
 namespace Hermes.Basket.API.Entities;
 
 public class BasketItem
 {
-    public Guid Id { get; set; }
-    public Guid ProductId { get; set; }
-    public required string ProductName { get; set; }
-    public decimal Price { get; set; }
-    public int Quantity { get; set; }
-    public string? PictureUri { get; set; }
+    [Indexed] public Guid ProductId { get; set; }
+    [Indexed] public required string ProductName { get; set; }
+    [Indexed] public decimal Price { get; set; }
+    [Indexed] public int Quantity { get; set; }
+    [Indexed] public string? PictureUri { get; set; }
 }
