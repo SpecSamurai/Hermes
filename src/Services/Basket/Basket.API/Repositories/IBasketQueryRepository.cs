@@ -5,6 +5,6 @@ namespace Hermes.Basket.API.Repositories;
 
 public interface IBasketQueryRepository :
     IGetByIdNullableQueryRepository<Guid, CustomerBasket>,
-    IListByIdQueryRepository<Guid, CustomerBasket>
+    IPaginationQueryRepository<CustomerBasket>
 {
 }
