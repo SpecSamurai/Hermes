@@ -1,43 +1,62 @@
-using Hermes.Basket.API.Entities;
-using StackExchange.Redis;
+using System.ComponentModel;
 using System.Linq.Expressions;
-using System.Text.Json;
+using Hermes.Basket.API.Entities;
+using Hermes.Frameworks.Repositories.DataStructures;
+using Redis.OM;
+using Redis.OM.Searching;
 
 namespace Hermes.Basket.API.Repositories;
 
 public class BasketQueryRepository : IBasketQueryRepository
 {
-    private readonly IDatabase _database;
-    private readonly IConnectionMultiplexer _connectionMultiplexer;
+    private IRedisCollection<CustomerBasket> _customerBaskets;
 
-    public BasketQueryRepository(IConnectionMultiplexer connectionMultiplexer)
-    {
-        _connectionMultiplexer = connectionMultiplexer;
-        _database = connectionMultiplexer.GetDatabase();
-    }
+    public BasketQueryRepository(RedisConnectionProvider redisConnectionProvider) =>
+        _customerBaskets = redisConnectionProvider.RedisCollection<CustomerBasket>();
 
-    public async Task<CustomerBasket?> FindAsync(Guid id, bool includeDetails = true, CancellationToken cancellationToken = default)
-    {
-        string? data = await _database.StringGetAsync(id.ToString());
+    public async Task<CustomerBasket?> FindAsync(
+        Guid id,
+        bool includeDetails = true,
+        CancellationToken cancellationToken = default) =>
+            await _customerBaskets.FindByIdAsync(id.ToString());
 
-        return string.IsNullOrWhiteSpace(data) is false
-            ? JsonSerializer.Deserialize<CustomerBasket>(data)
-            : default;
-    }
-
-    public async Task<List<TResult>> GetListAsync<TResult>(
-        IEnumerable<Guid> ids,
+    public async Task<IList<TResult>> GetPageAsync<TResult>(
+        Offset offset,
         Expression<Func<CustomerBasket, TResult>> selector,
+        string sorting,
         bool includeDetails = false,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default) where TResult : notnull
     {
-        var keys = ids.Select(id => new RedisKey(id.ToString())).ToArray();
-        var data = await _database.StringGetAsync(keys);
+        var property = TypeDescriptor.GetProperties(typeof(CustomerBasket)).Find(sorting, ignoreCase: false);
 
-        return data
-            .Where(basket => basket.IsNullOrEmpty is false)
-            .Select(basket => JsonSerializer.Deserialize<CustomerBasket>(basket!)!)
-            .Select(selector.Compile())
-            .ToList();
+        var query = property is not null
+            ? _customerBaskets.OrderBy(entity => property.GetValue(entity))
+            : _customerBaskets;
+
+        return await query
+            .Skip(offset.Skip)
+            .Take(offset.Take)
+            .Select(selector)
+            .ToListAsync();
+    }
+
+    public async Task<IList<TResult>> GetPageAsync<TResult>(
+        Keyset<CustomerBasket> keyset,
+        Expression<Func<CustomerBasket, TResult>> selector,
+        string sorting,
+        bool includeDetails = false,
+        CancellationToken cancellationToken = default) where TResult : notnull
+    {
+        var property = TypeDescriptor.GetProperties(typeof(CustomerBasket)).Find(sorting, ignoreCase: false);
+
+        var query = property is not null
+            ? _customerBaskets.OrderBy(entity => property.GetValue(entity))
+            : _customerBaskets;
+
+        return await query
+            .Where(keyset.Predicate)
+            .Take(keyset.Take)
+            .Select(selector)
+            .ToListAsync();
     }
 }
