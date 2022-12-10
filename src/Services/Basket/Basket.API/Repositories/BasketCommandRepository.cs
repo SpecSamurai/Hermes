@@ -1,19 +1,22 @@
-using System.Text.Json;
 using Hermes.Basket.API.Entities;
-using StackExchange.Redis;
+using Redis.OM;
+using Redis.OM.Searching;
 
 namespace Hermes.Basket.API.Repositories;
 
 public class BasketCommandRepository : IBasketCommandRepository
 {
-    private readonly IDatabase _database;
+    private readonly IRedisCollection<CustomerBasket> _customerBaskets;
+    public BasketCommandRepository(RedisConnectionProvider redisConnectionProvider) =>
+        _customerBaskets = redisConnectionProvider.RedisCollection<CustomerBasket>();
 
-    public BasketCommandRepository(IConnectionMultiplexer connectionMultiplexer) =>
-        _database = connectionMultiplexer.GetDatabase();
-
-    public async Task DeleteAsync(Guid id, bool autoSave = false, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(
+        Guid id,
+        bool autoSave = false,
+        CancellationToken cancellationToken = default)
     {
-        await _database.KeyDeleteAsync(id.ToString());
+        var entity = await _customerBaskets.SingleAsync(basket => basket.Id == id);
+        await _customerBaskets.DeleteAsync(entity);
     }
 
     public async Task<CustomerBasket> UpdateAsync(
@@ -21,7 +24,7 @@ public class BasketCommandRepository : IBasketCommandRepository
         bool autoSave = false,
         CancellationToken cancellationToken = default)
     {
-        var created = await _database.StringSetAsync(entity.CustomerId.ToString(), JsonSerializer.Serialize(entity));
+        await _customerBaskets.UpdateAsync(entity);
         return entity;
     }
 
@@ -34,8 +37,8 @@ public class BasketCommandRepository : IBasketCommandRepository
             await UpdateAsync(entity, autoSave, cancellationToken);
     }
 
-    public Task SaveChangesAsync(CancellationToken cancellationToken = default)
+    public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        return Task.CompletedTask;
+        await _customerBaskets.SaveAsync();
     }
 }
