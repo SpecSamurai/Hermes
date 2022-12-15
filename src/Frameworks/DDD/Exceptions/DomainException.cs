@@ -1,4 +1,4 @@
-namespace Hermes.Ordering.Domain.Exceptions;
+namespace Hermes.Frameworks.DDD.Exceptions;
 
 public class DomainException : Exception
 {
