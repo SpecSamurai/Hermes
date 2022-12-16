@@ -36,9 +36,4 @@ public class BasketCommandRepository : IBasketCommandRepository
         foreach (var entity in entities)
             await UpdateAsync(entity, autoSave, cancellationToken);
     }
-
-    public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        await _customerBaskets.SaveAsync();
-    }
 }
