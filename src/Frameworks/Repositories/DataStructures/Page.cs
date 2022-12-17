@@ -1,5 +1,5 @@
 using System.Collections;
-using Hermes.Frameworks.Repositories.ErrorCodes;
+using Hermes.Frameworks.Repositories.Constants;
 
 namespace Hermes.Frameworks.Repositories.DataStructures;
 
@@ -9,11 +9,11 @@ public record Page<T> : IReadOnlyList<T>
     {
         _collection = pageCollection.Count <= totalCount && pageCollection.Count <= pageSize
             ? pageCollection
-            : throw new ArgumentException(Page.InvalidListCount, nameof(pageCollection));
+            : throw new ArgumentException(ErrorCodes.InvalidListCount, nameof(pageCollection));
 
         Count = totalCount;
-        PageIndex = pageIndex >= 0 ? pageIndex : throw new ArgumentException(Page.InvalidPageIndex, nameof(pageIndex));
-        PageSize = pageSize > 0 ? pageSize : throw new ArgumentException(Page.InvalidPageSize, nameof(pageSize));
+        PageIndex = pageIndex >= 0 ? pageIndex : throw new ArgumentException(ErrorCodes.InvalidPageIndex, nameof(pageIndex));
+        PageSize = pageSize > 0 ? pageSize : throw new ArgumentException(ErrorCodes.InvalidPageSize, nameof(pageSize));
         TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
     }
 
