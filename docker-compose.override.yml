@@ -3,6 +3,41 @@
 version: '3.4'
 
 services:
+  rabbitmq:
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  catalog-sql:
+    container_name: catalog-sql
+    restart: on-failure:3
+    hostname: catalog-sql
+    ports:
+      - "1433:1433"
+    environment:
+      MSSQL_SA_PASSWORD: ${CATALOG_API_MSSQL_SA_PASSWORD}
+      ACCEPT_EULA: 1
+      MSSQL_PID: Developer # Default is 'Developer'
+
+  basket-redis:
+    container_name: basket-redis
+    restart: on-failure:3
+    hostname: basket-redis
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+
+  order-mongodb:
+    container_name: order-mongodb
+    restart: on-failure:3
+    hostname: order-mongodb
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${ORDER_MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${ORDER_MONGO_INITDB_ROOT_PASSWORD}
+
   sqlpad:
     container_name: sqlpad
     image: sqlpad/sqlpad:latest
@@ -28,30 +63,18 @@ services:
     depends_on:
       - catalog-sql
 
-  catalog-sql:
-    container_name: catalog-sql
-    restart: on-failure:3
-    hostname: catalog-sql
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express
+    restart: unless-stopped
     ports:
-      - "1433:1433"
+      - 8081:8081
     environment:
-      MSSQL_SA_PASSWORD: ${CATALOG_API_MSSQL_SA_PASSWORD}
-      ACCEPT_EULA: 1
-      MSSQL_PID: Developer # Default is 'Developer'
-
-  basket-redis:
-    container_name: basket-redis
-    restart: on-failure:3
-    hostname: basket-redis
-    ports:
-      - "6379:6379"
-      - "8001:8001"
-
-  rabbitmq:
-    container_name: rabbitmq
-    ports:
-      - "15672:15672"
-      - "5672:5672"
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${ORDER_MONGO_INITDB_ROOT_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${ORDER_MONGO_INITDB_ROOT_PASSWORD}
+      ME_CONFIG_MONGODB_URL: mongodb://${ORDER_MONGO_INITDB_ROOT_USERNAME}:${ORDER_MONGO_INITDB_ROOT_PASSWORD}@order-mongodb:27017/
+    depends_on:
+      - order-mongodb
 
 volumes:
   sqlpad-volume:
