@@ -9,5 +9,8 @@ services:
   basket-redis:
     image: redis/redis-stack:latest
 
+  order-mongodb:
+    image: mongo:latest
+
   rabbitmq:
     image: rabbitmq:management
