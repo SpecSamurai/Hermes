@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Frameworks\DDD\DDD.csproj" />
+    <ProjectReference Include="..\..\..\Frameworks\Repositories\Repositories.csproj" />
+  </ItemGroup>
+
 </Project>
