@@ -2,7 +2,7 @@
 
 namespace Hermes.Client.Web.Controllers;
 
-public class DashboardController : Controller
+public class CatalogController : Controller
 {
     public IActionResult Index()
     {
