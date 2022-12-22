@@ -1,0 +1,32 @@
+﻿@using Hermes.Client.Web.Models
+@model CatalogViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container">
+    <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
+
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        @foreach(var product in Model.Products)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <img src="@product.PictureUri" class="card-img-top" alt="product picture">
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">@product.Description</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">@product.Brand</li>
+                        <li class="list-group-item">@product.Price</li>
+                    </ul>
+                    <div class="card-body">
+                        <a href="#" class="btn btn-primary">Card link</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
