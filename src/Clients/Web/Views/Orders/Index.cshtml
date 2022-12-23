@@ -1,0 +1,39 @@
+﻿@using Hermes.Client.Web.Models
+@model OrdersViewModel
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<div class="container table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Products</th>
+                <th scope="col">Price</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var order in Model.Orders)
+            {
+                <tr>
+                    <th scope="row">@order.Id</th>
+                    <td>
+                        <ul>
+                            @foreach(var product in order.Products)
+                            {
+                                <li>@product.Name</li>
+                            }
+                        </ul>
+                    </td>
+                    <td>@order.Price</td>
+                    <td>@order.Date</td>
+                    <td>@order.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
