@@ -1,0 +1,32 @@
+﻿@using Hermes.Client.Web.Models
+@model PaymentsViewModel
+
+@{
+    ViewData["Title"] = "Payments";
+}
+
+<div class="container table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Order ID</th>
+                <th scope="col">Price</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var payment in Model.Payments)
+            {
+                <tr>
+                    <th scope="row">@payment.Id</th>
+                    <td>@payment.OrderId</td>
+                    <td>@payment.Price</td>
+                    <td>@payment.Date</td>
+                    <td>@payment.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
