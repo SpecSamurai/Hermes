@@ -1,4 +1,4 @@
-namespace Hermes.Frameworks.Functional.Money;
+namespace Hermes.Frameworks.Functional.Fintech;
 
 public interface IComposableExpression : IExpression
 {
