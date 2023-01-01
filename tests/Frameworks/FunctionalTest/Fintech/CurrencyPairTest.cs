@@ -1,7 +1,7 @@
-using Hermes.Frameworks.Functional.Money;
+using Hermes.Frameworks.Functional.Fintech;
 using Xunit;
 
-namespace Hermes.Frameworks.FunctionalTest.Money;
+namespace Hermes.Frameworks.FunctionalTest.Fintech;
 
 public class CurrencyPairTest
 {
