@@ -1,9 +1,17 @@
 namespace Hermes.Frameworks.Functional.Fintech;
 
-public enum Currency
+public partial record Currency
 {
-    USD,
-    EUR,
-    JPY,
-    GBP
+    public Currency(CurrencyCode code, int decimalDigits, string englishName, string symbol)
+    {
+        Code = code;
+        DecimalDigits = decimalDigits;
+        EnglishName = englishName;
+        Symbol = symbol;
+    }
+
+    public CurrencyCode Code { get; }
+    public int DecimalDigits { get; }
+    public string EnglishName { get; }
+    public string Symbol { get; }
 }
