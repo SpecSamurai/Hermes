@@ -1,6 +1,6 @@
 namespace Hermes.Frameworks.Functional.Fintech;
 
-public record class Money : IExpression
+public partial record Money : IExpression
 {
     public Money(decimal amount, Currency currency)
     {
@@ -11,6 +11,12 @@ public record class Money : IExpression
     public decimal Amount { get; }
     public Currency Currency { get; }
 
+    public void Deconstruct(out decimal amount, out Currency currency)
+    {
+        amount = Amount;
+        currency = Currency;
+    }
+
     public Money Reduce(ExchangeRates exchangeRates, Currency to)
     {
         var rate = exchangeRates[(Currency, to)];
@@ -19,7 +25,4 @@ public record class Money : IExpression
 
     public override string ToString() =>
         $"{Amount} {Currency}";
-
-    public static IExpression operator +(Money left, Money right) =>
-        left.Plus(right);
 }
