@@ -5,56 +5,56 @@ namespace Hermes.Frameworks.FunctionalTest.Fintech;
 
 public class CurrencyPairTest
 {
-    private const Currency FromTest = Currency.USD;
-    private const Currency ToTest = Currency.EUR;
+    private readonly Currency BaseCurrencyTest = Currency.USD;
+    private readonly Currency QuoteCurrencyTest = Currency.EUR;
 
     [Fact]
     public void Deconstruct_CurrencyPair_ValidTuple()
     {
         // Arrange
-        var sut = new CurrencyPair(FromTest, ToTest);
+        var sut = new CurrencyPair(BaseCurrencyTest, QuoteCurrencyTest);
 
         // Act
-        (Currency from, Currency to) = sut;
+        (Currency from, Currency quoteCurrency) = sut;
 
         // Assert
-        Assert.Equal(FromTest, from);
-        Assert.Equal(ToTest, to);
+        Assert.Equal(BaseCurrencyTest, from);
+        Assert.Equal(QuoteCurrencyTest, quoteCurrency);
     }
 
     [Fact]
     public void ImplicitCast_CurrencyPair_ValidTuple()
     {
         // Arrange
-        var sut = new CurrencyPair(FromTest, ToTest);
+        var sut = new CurrencyPair(BaseCurrencyTest, QuoteCurrencyTest);
 
         // Act
-        (Currency From, Currency To) actual = sut;
+        (Currency From, Currency quoteCurrency) actual = sut;
 
         // Assert
-        Assert.Equal(FromTest, actual.From);
-        Assert.Equal(ToTest, actual.To);
+        Assert.Equal(BaseCurrencyTest, actual.From);
+        Assert.Equal(QuoteCurrencyTest, actual.quoteCurrency);
     }
 
     [Fact]
     public void ImplicitCast_ValidTuple_CurrencyPair()
     {
         // Arrange
-        (Currency From, Currency To) sut = (FromTest, ToTest);
+        (Currency BaseCurrency, Currency QuoteCurrency) sut = (BaseCurrencyTest, QuoteCurrencyTest);
 
         // Act
         CurrencyPair actual = sut;
 
         // Assert
-        Assert.Equal(FromTest, actual.From);
-        Assert.Equal(ToTest, actual.To);
+        Assert.Equal(BaseCurrencyTest, actual.BaseCurrency);
+        Assert.Equal(QuoteCurrencyTest, actual.QuoteCurrency);
     }
 
     [Fact]
     public void ToString_CurrencyPair_ValidQuotation()
     {
         // Arrange
-        var sut = new CurrencyPair(FromTest, ToTest);
+        var sut = new CurrencyPair(BaseCurrencyTest, QuoteCurrencyTest);
 
         // Act
         var actual = sut.ToString();

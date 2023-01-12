@@ -1,28 +1,28 @@
 namespace Hermes.Frameworks.Functional.Fintech;
 
-public record class CurrencyPair
+public record CurrencyPair
 {
-    public CurrencyPair(Currency from, Currency to)
+    public CurrencyPair(Currency baseCurrency, Currency quoteCurrency)
     {
-        From = from;
-        To = to;
+        BaseCurrency = baseCurrency;
+        QuoteCurrency = quoteCurrency;
     }
 
-    public Currency From { get; }
-    public Currency To { get; }
+    public Currency BaseCurrency { get; }
+    public Currency QuoteCurrency { get; }
 
-    public void Deconstruct(out Currency from, out Currency to)
+    public void Deconstruct(out Currency baseCurrency, out Currency quoteCurrency)
     {
-        from = From;
-        to = To;
+        baseCurrency = BaseCurrency;
+        quoteCurrency = QuoteCurrency;
     }
 
     public override string ToString() =>
-        $"{From}/{To}";
+        $"{BaseCurrency.Code}/{QuoteCurrency.Code}";
 
-    public static implicit operator (Currency From, Currency To)(CurrencyPair conversion) =>
-        (conversion.From, conversion.To);
+    public static implicit operator (Currency BaseCurrency, Currency QuoteCurrency)(CurrencyPair conversion) =>
+        (conversion.BaseCurrency, conversion.QuoteCurrency);
 
-    public static implicit operator CurrencyPair((Currency From, Currency To) conversion) =>
-        new CurrencyPair(conversion.From, conversion.To);
+    public static implicit operator CurrencyPair((Currency BaseCurrency, Currency QuoteCurrency) conversion) =>
+        new CurrencyPair(conversion.BaseCurrency, conversion.QuoteCurrency);
 }
