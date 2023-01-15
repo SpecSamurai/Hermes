@@ -2,18 +2,15 @@ namespace Hermes.Frameworks.Functional.Fintech;
 
 public record Sum : IComposableExpression
 {
-    public Sum(IExpression augend, IExpression addend)
+    public Sum(IExpression left, IExpression right)
     {
-        Left = augend;
-        Right = addend;
+        Left = left;
+        Right = right;
     }
 
     public IExpression Left { get; }
     public IExpression Right { get; }
 
-    public Money Reduce(ExchangeRates exchangeRates, Currency to)
-    {
-        var sum = Left.Reduce(exchangeRates, to).Amount + Right.Reduce(exchangeRates, to).Amount;
-        return new Money(sum, to);
-    }
+    public Money Reduce(ExchangeRates exchangeRates, Currency to) =>
+        Left.Reduce(exchangeRates, to) + Right.Reduce(exchangeRates, to);
 }
