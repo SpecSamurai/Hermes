@@ -38,6 +38,17 @@ services:
       MONGO_INITDB_ROOT_USERNAME: ${ORDER_MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${ORDER_MONGO_INITDB_ROOT_PASSWORD}
 
+  payment-sql:
+    container_name: payment-sql
+    restart: on-failure:3
+    hostname: payment-sql
+    ports:
+      - "1433:1433"
+    environment:
+      MSSQL_SA_PASSWORD: ${CATALOG_API_MSSQL_SA_PASSWORD}
+      ACCEPT_EULA: 1
+      MSSQL_PID: Developer # Default is 'Developer'
+
   sqlpad:
     container_name: sqlpad
     image: sqlpad/sqlpad:latest

@@ -12,5 +12,8 @@ services:
   order-mongodb:
     image: mongo:latest
 
+  payment-sql:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+
   rabbitmq:
     image: rabbitmq:management
