@@ -15,5 +15,5 @@ public static class ResultMonadExtensions
     public static IResult<TValue> Flatten<TValue>(this IResult<IResult<TValue>> result) =>
         result.Match(
             onSuccess: success => success,
-            onFailure: failure => Result.Failure<TValue>(failure));
+            onFailure: Result.Failure<TValue>);
 }
