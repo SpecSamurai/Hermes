@@ -1,6 +1,6 @@
 namespace Hermes.Frameworks.Functional.Results;
 
-public static class ResultMonadExtensions
+public static partial class ResultExtensions
 {
     public static IResult<TResult> Bind<TValue, TResult>(
         this IResult<TValue> result,
