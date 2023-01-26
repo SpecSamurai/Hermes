@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Hermes.Frameworks.FunctionalTest.Results;
 
-public class ResultFunctorExtensionsTest
+public partial class ResultExtensionsTest
 {
     private const string TestValue = "Success";
     private const string TestError = "Error";

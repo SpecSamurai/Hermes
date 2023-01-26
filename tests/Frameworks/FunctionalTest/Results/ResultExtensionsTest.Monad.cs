@@ -2,7 +2,7 @@ using Xunit;
 
 namespace Hermes.Frameworks.Functional.Results;
 
-public class ResultMonadExtensionsTest
+public partial class ResultExtensionsTest
 {
     private const string TestValue = "Success";
     private const string TestError = "Error";
@@ -107,7 +107,7 @@ public class ResultMonadExtensionsTest
         var sut = Result.Success(TestValue);
 
         // Act
-        var result = await sut.BindAsync(async value => await Task.FromResult(Result.Success(value)));
+        var result = await sut.BindAsync<string, string>(async value => await Task.FromResult(Result.Success(value)));
         var actual = result.Match(
             onSuccess: success => success,
             onFailure: failure => failure
@@ -124,7 +124,7 @@ public class ResultMonadExtensionsTest
         var sut = Result.Success(TestValue);
 
         // Act
-        var result = await sut.BindAsync(async value => await Task.FromResult(Result.Failure<string>(TestError)));
+        var result = await sut.BindAsync<string, string>(async value => await Task.FromResult(Result.Failure<string>(TestError)));
         var actual = result.Match(
             onSuccess: success => success,
             onFailure: failure => failure
@@ -140,7 +140,7 @@ public class ResultMonadExtensionsTest
         var sut = Result.Failure<string>(TestError);
 
         // Act
-        var result = await sut.BindAsync(async value => await Task.FromResult(Result.Failure<string>(string.Empty)));
+        var result = await sut.BindAsync<string, string>(async value => await Task.FromResult(Result.Failure<string>(string.Empty)));
         var actual = result.Match(
             onSuccess: success => success,
             onFailure: failure => failure
@@ -157,7 +157,7 @@ public class ResultMonadExtensionsTest
         var sut = Result.Failure<string>(TestError);
 
         // Act
-        var result = await sut.BindAsync(async value => await Task.FromResult(Result.Success(TestValue)));
+        var result = await sut.BindAsync<string, string>(async value => await Task.FromResult(Result.Success(TestValue)));
         var actual = result.Match(
             onSuccess: success => success,
             onFailure: failure => failure
