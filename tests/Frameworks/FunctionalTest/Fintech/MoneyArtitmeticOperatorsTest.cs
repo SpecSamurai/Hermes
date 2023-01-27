@@ -83,11 +83,71 @@ public class MoneyArtitmeticOperatorsTest
     }
 
     [Fact]
+    public void AdditionOperator_WithLeftDecimal_Sum()
+    {
+        // Arrange
+        var sut1 = 1m;
+        var sut2 = new Money(2, Currency.XTS);
+
+        // Act
+        var actual = sut1 + sut2;
+
+        // Assert
+        Assert.Equal(3, actual.Amount);
+        Assert.Equal(Currency.XTS, actual.Currency);
+    }
+
+    [Fact]
+    public void AdditionOperator_WithRightDecimal_Sum()
+    {
+        // Arrange
+        var sut1 = new Money(1, Currency.XTS);
+        var sut2 = 2m;
+
+        // Act
+        var actual = sut1 + sut2;
+
+        // Assert
+        Assert.Equal(3, actual.Amount);
+        Assert.Equal(Currency.XTS, actual.Currency);
+    }
+
+    [Fact]
     public void SubtractionOperator_TheSameCurrencies_Subtracted()
     {
         // Arrange
         var sut1 = new Money(2, Currency.XTS);
         var sut2 = new Money(1, Currency.XTS);
+
+        // Act
+        var actual = sut1 - sut2;
+
+        // Assert
+        Assert.Equal(1, actual.Amount);
+        Assert.Equal(Currency.XTS, actual.Currency);
+    }
+
+    [Fact]
+    public void SubtractionOperator_WithLeftDecimal_Subtracted()
+    {
+        // Arrange
+        var sut1 = 2m;
+        var sut2 = new Money(1, Currency.XTS);
+
+        // Act
+        var actual = sut1 - sut2;
+
+        // Assert
+        Assert.Equal(1, actual.Amount);
+        Assert.Equal(Currency.XTS, actual.Currency);
+    }
+
+    [Fact]
+    public void SubtractionOperator_WithRightDecimal_Subtracted()
+    {
+        // Arrange
+        var sut1 = new Money(2, Currency.XTS);
+        var sut2 = 1m;
 
         // Act
         var actual = sut1 - sut2;
@@ -113,11 +173,71 @@ public class MoneyArtitmeticOperatorsTest
     }
 
     [Fact]
+    public void MultiplicationOperator_WithLeftDecimal_Multiplied()
+    {
+        // Arrange
+        var sut1 = 2m;
+        var sut2 = new Money(2, Currency.XTS);
+
+        // Act
+        var actual = sut1 * sut2;
+
+        // Assert
+        Assert.Equal(4, actual.Amount);
+        Assert.Equal(Currency.XTS, actual.Currency);
+    }
+
+    [Fact]
+    public void MultiplicationOperator_WithRightDecimal_Multiplied()
+    {
+        // Arrange
+        var sut1 = new Money(2, Currency.XTS);
+        var sut2 = 2m;
+
+        // Act
+        var actual = sut1 * sut2;
+
+        // Assert
+        Assert.Equal(4, actual.Amount);
+        Assert.Equal(Currency.XTS, actual.Currency);
+    }
+
+    [Fact]
     public void DivisionOperator_TheSameCurrencies_Divided()
     {
         // Arrange
         var sut1 = new Money(1, Currency.XTS);
         var sut2 = new Money(2, Currency.XTS);
+
+        // Act
+        var actual = sut1 / sut2;
+
+        // Assert
+        Assert.Equal(0.5m, actual.Amount);
+        Assert.Equal(Currency.XTS, actual.Currency);
+    }
+
+    [Fact]
+    public void DivisionOperator_WithLeftDecimal_Divided()
+    {
+        // Arrange
+        var sut1 = 1m;
+        var sut2 = new Money(2, Currency.XTS);
+
+        // Act
+        var actual = sut1 / sut2;
+
+        // Assert
+        Assert.Equal(0.5m, actual.Amount);
+        Assert.Equal(Currency.XTS, actual.Currency);
+    }
+
+    [Fact]
+    public void DivisionOperator_WithRightDecimal_Divided()
+    {
+        // Arrange
+        var sut1 = new Money(1, Currency.XTS);
+        var sut2 = 2m;
 
         // Act
         var actual = sut1 / sut2;
