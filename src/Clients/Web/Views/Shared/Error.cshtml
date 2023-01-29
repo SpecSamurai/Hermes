@@ -1,6 +1,11 @@
-﻿@{
-    ViewData["Title"] = "Error";
+﻿@using Hermes.Client.Web.Models.Shared
+@model ErrorViewModel
+
+@{
+    ViewData["Title"] = $"Error {Model.StatusCode}";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<div class="d-flex flex-column align-items-center justify-content-center">
+    <h1 class="display-1 fw-bold">@Model.StatusCode</h1>
+    <h2 class="font-weight-normal lead">@Model.Message</h2>
+</div>
