@@ -1,0 +1,44 @@
+@using Hermes.Client.Web.Models.Shared
+@model PaginationViewModel
+
+@{
+    var firstPageIndex = Math.Max(0, Model.PageIndex - 1);
+    var lastPageIndex = Math.Min(Model.PageIndex + Model.NextPagesCount, Model.TotalPages);
+
+    var previousPageUrl = Model.PageIndex > 0 ? GetPageUrl(Model.PageIndex - 1) : null;
+    var nextPageUrl = Model.PageIndex < Model.TotalPages ? GetPageUrl(Model.PageIndex + 1) : null;
+}
+
+<nav>
+    <ul class="pagination justify-content-center">
+        <li class="page-item@(Model.PageIndex == 0 ? " disabled" : string.Empty)">
+            <a class="page-link" href="@previousPageUrl">@Model.PreviousButtonLabel</a>
+        </li>
+
+        @for (int index = firstPageIndex; index <= lastPageIndex; index++)
+        {
+            <li class="page-item@(Model.PageIndex == index ? " active" : string.Empty)">
+                @if (Model.PageIndex == index)
+                {
+                    <a class="page-link">@(index + 1)</a>
+                }
+                else
+                {
+                    <a class="page-link" href="@GetPageUrl(index)">@(index + 1)</a>
+                }
+            </li>
+        }
+
+        <li class="page-item@(Model.PageIndex == Model.TotalPages ? " disabled" : string.Empty)">
+            <a class="page-link" href="@nextPageUrl">@Model.NextButtonLabel</a>
+        </li>
+    </ul>
+</nav>
+
+@functions
+{
+    public string GetPageUrl(int index)
+    {
+        return string.Format(Model.PageUrl, index);
+    }
+}
