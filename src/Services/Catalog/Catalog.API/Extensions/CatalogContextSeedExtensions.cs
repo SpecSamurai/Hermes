@@ -48,7 +48,7 @@ public static class CatalogContextSeedExtensions
             .RuleFor(item => item.Name, setter => $"{setter.Commerce.Product()} {setter.IndexFaker}")
             .RuleFor(item => item.Description, setter => setter.Commerce.ProductDescription())
             .RuleFor(item => item.PictureFileName, "Picture")
-            .RuleFor(item => item.PictureUri, "https://picsum.photos/320/330")
+            .RuleFor(item => item.PictureUri, setter => @$"https://picsum.photos/id/{setter.Random.Int(0, 1000)}/320/330")
             .RuleFor(item => item.Price, setter => decimal.Parse(setter.Commerce.Price(min: 10, max: 100)))
             .RuleFor(item => item.AvailableStock, setter => setter.Random.Int(0, 100))
             .RuleFor(item => item.OnReorder, false)
