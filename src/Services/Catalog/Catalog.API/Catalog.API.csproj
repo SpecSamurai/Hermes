@@ -35,10 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="License.xml" CopyToPublishDirectory="Always" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Frameworks\Specifications\Specifications.csproj" />
     <ProjectReference Include="..\..\..\Frameworks\Repositories\Repositories.csproj" />
   </ItemGroup>
