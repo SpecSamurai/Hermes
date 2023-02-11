@@ -1,26 +1,28 @@
-﻿@using Hermes.Client.Web.Models
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Hermes.Client.Web.Constants
+@using Hermes.Client.Web.Models.Payments
 @model PaymentsViewModel
 
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Payments";
+    ViewData["Title"] = @Localizer[Resources.Payments.Title];
 }
 
 <div class="container table-responsive">
     <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Order ID</th>
-                <th scope="col">Price</th>
-                <th scope="col">Date</th>
-                <th scope="col">Status</th>
+                <th scope="col">@Localizer[Resources.Payments.OrderColumnHeader]</th>
+                <th scope="col">@Localizer[Resources.Payments.PriceColumnHeader]</th>
+                <th scope="col">@Localizer[Resources.Payments.DateColumnHeader]</th>
+                <th scope="col">@Localizer[Resources.Payments.StatusColumnHeader]</th>
             </tr>
         </thead>
         <tbody>
-            @foreach(var payment in Model.Payments)
+            @foreach (var payment in Model.Payments)
             {
                 <tr>
-                    <th scope="row">@payment.Id</th>
                     <td>@payment.OrderId</td>
                     <td>@payment.Price</td>
                     <td>@payment.Date</td>
@@ -29,4 +31,9 @@
             }
         </tbody>
     </table>
+
+    @if (Model.Payments.Any())
+    {
+        @await Html.PartialAsync("../Shared/_Pagination.cshtml", Model.Pagination)
+    }
 </div>
