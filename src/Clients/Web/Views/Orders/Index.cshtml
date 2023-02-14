@@ -1,29 +1,31 @@
-﻿@using Hermes.Client.Web.Models
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Hermes.Client.Web.Constants
+@using Hermes.Client.Web.Models.Orders
 @model OrdersViewModel
 
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Orders";
+    ViewData["Title"] = @Localizer[Resources.Orders.Title];
 }
 
 <div class="container table-responsive">
     <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Products</th>
-                <th scope="col">Price</th>
-                <th scope="col">Date</th>
-                <th scope="col">Status</th>
+                <th scope="col">@Localizer[Resources.Orders.ProductsColumnHeader]</th>
+                <th scope="col">@Localizer[Resources.Orders.PriceColumnHeader]</th>
+                <th scope="col">@Localizer[Resources.Orders.DateColumnHeader]</th>
+                <th scope="col">@Localizer[Resources.Orders.StatusColumnHeader]</th>
             </tr>
         </thead>
         <tbody>
-            @foreach(var order in Model.Orders)
+            @foreach (var order in Model.Orders)
             {
                 <tr>
-                    <th scope="row">@order.Id</th>
                     <td>
                         <ul>
-                            @foreach(var product in order.Products)
+                            @foreach (var product in order.Products)
                             {
                                 <li>@product.Name</li>
                             }
@@ -36,4 +38,9 @@
             }
         </tbody>
     </table>
+
+    @if (Model.Orders.Any())
+    {
+        @await Html.PartialAsync("../Shared/_Pagination.cshtml", Model.Pagination)
+    }
 </div>
