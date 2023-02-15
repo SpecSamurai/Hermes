@@ -6,6 +6,8 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
+    networks:
+      - hermes
 
   catalog-sql:
     container_name: catalog-sql
@@ -17,6 +19,8 @@ services:
       MSSQL_SA_PASSWORD: ${CATALOG_API_MSSQL_SA_PASSWORD}
       ACCEPT_EULA: 1
       MSSQL_PID: Developer
+    networks:
+      - hermes
 
   basket-redis:
     container_name: basket-redis
@@ -25,6 +29,8 @@ services:
     ports:
       - "6379:6379"
       - "8001:8001"
+    networks:
+      - hermes
 
   order-mongodb:
     container_name: order-mongodb
@@ -35,6 +41,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${ORDER_MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${ORDER_MONGO_INITDB_ROOT_PASSWORD}
+    networks:
+      - hermes
 
   payment-sql:
     container_name: payment-sql
@@ -46,6 +54,8 @@ services:
       MSSQL_SA_PASSWORD: ${CATALOG_API_MSSQL_SA_PASSWORD}
       ACCEPT_EULA: 1
       MSSQL_PID: Developer
+    networks:
+      - hermes
 
   sqlpad:
     container_name: sqlpad
@@ -71,6 +81,8 @@ services:
       - sqlpad-volume:/var/lib/sqlpad
     depends_on:
       - catalog-sql
+    networks:
+      - hermes
 
   mongo-express:
     container_name: mongo-express
@@ -84,6 +96,12 @@ services:
       ME_CONFIG_MONGODB_URL: mongodb://${ORDER_MONGO_INITDB_ROOT_USERNAME}:${ORDER_MONGO_INITDB_ROOT_PASSWORD}@order-mongodb:27017/
     depends_on:
       - order-mongodb
+    networks:
+      - hermes
 
 volumes:
   sqlpad-volume:
+
+networks:
+  hermes:
+    name: hermes
