@@ -1,4 +1,4 @@
-namespace Hermes.Client.Web.Models;
+namespace Hermes.Client.Web.Models.Orders;
 
 internal class OrderedProductViewModel
 {
