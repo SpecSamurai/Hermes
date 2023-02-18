@@ -19,6 +19,7 @@
 - `dotnet ef database update`
 
 - `docker build --build-arg NET_VERSION=6.0 --build-arg CONFIGURATION=release -f Dockerfile ../../../`
+- `docker rmi $(docker images -aq)`
 
 - `kubectl apply -f ./k8s --recursive`
 - `kubectl apply -f ./k8s/configmap/catalog-api.dev.yaml -f ./k8s/deployment --recursive`
