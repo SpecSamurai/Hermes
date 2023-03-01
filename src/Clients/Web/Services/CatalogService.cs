@@ -21,7 +21,7 @@ public class CatalogService : ICatalogService
 
     public async Task<IResult<PageResponse<ItemGetResponse>>> GetPageAsync(int pageIndex)
     {
-        var httpClient = httpClientFactory.CreateClient(Settings.CatalogApiClientName);
+        var httpClient = httpClientFactory.CreateClient(HttpClients.CatalogApi);
         var response = await httpClient.GetAsync(GetUri(pageIndex));
 
         return
