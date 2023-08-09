@@ -9,6 +9,5 @@ public static class Result
         failure;
 
     public static Failure<TValue> Failure<TValue>(string code, params (string Key, object Value)[] parameters) =>
-        new Failure<TValue>(
-            new ErrorMessage(code, parameters));
+        new(new ErrorMessage(code, parameters));
 }

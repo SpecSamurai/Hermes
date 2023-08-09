@@ -21,5 +21,5 @@ public record Success<TValue> : IResult<TValue>
         success.Value;
 
     public static implicit operator Success<TValue>(TValue value) =>
-        new Success<TValue>(value);
+        new(value);
 }

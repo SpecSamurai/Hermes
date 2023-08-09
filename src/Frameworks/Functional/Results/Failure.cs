@@ -21,5 +21,5 @@ public record Failure<TValue> : IResult<TValue>
         failure.ErrorMessage;
 
     public static implicit operator Failure<TValue>(ErrorMessage errorMessage) =>
-        new Failure<TValue>(errorMessage);
+        new(errorMessage);
 }
