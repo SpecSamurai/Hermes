@@ -1,0 +1,32 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Hermes.Client.Web.Constants
+@using Hermes.Client.Web.Models.Register
+@model RegisterViewModel
+
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = @Localizer[Resources.Register.Title];
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <form>
+                <h1 class="h3 mb-3 fw-normal">@Localizer[Resources.Register.Header]</h1>
+
+                <div class="form-floating mb-1">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="name@mail.com">
+                    <label for="floatingInput">@Localizer[Resources.Register.EmailLabel]</label>
+                </div>
+                <div class="form-floating mb-1">
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                    <label for="floatingPassword">@Localizer[Resources.Register.PasswordLabel]</label>
+                </div>
+
+                <button class="w-100 btn btn-lg btn-primary"
+                    type="submit">@Localizer[Resources.Register.RegisterButtonLabel]</button>
+            </form>
+        </div>
+    </div>
+</div>
