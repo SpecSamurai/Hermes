@@ -34,8 +34,13 @@
                     </li>
                 </ul>
                 <div class="d-fluid me-3">
-                    <partial name="_Login.cshtml" />
-                    <partial name="_Basket.cshtml" />
+                    <a class="btn btn-outline-light" href="/login"
+                        role="button">@Localizer[Resources.Login.LoginButtonLabel]</a>
+                    <a class="btn btn-outline-light" href="/register"
+                        role="button">@Localizer[Resources.Register.RegisterButtonLabel]</a>
+                    <a class="btn btn-outline-light" href="/account" role="button">
+                        <i class="bi bi-person-circle"></i>
+                    </a>
                 </div>
                 <div class="d-fluid">
                     <partial name="_NotificationsDropdown.cshtml" />
