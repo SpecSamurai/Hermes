@@ -1,0 +1,11 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Hermes.Client.Web.Constants
+
+@inject IViewLocalizer Localizer
+
+<a class="btn btn-outline-light" href="/login" role="button">@Localizer[Resources.Login.LoginButtonLabel]</a>
+<a class="btn btn-outline-light" href="/logout" role="button">@Localizer[Resources.Login.LogoutButtonLabel]</a>
+<a class="btn btn-outline-light" href="/register" role="button">@Localizer[Resources.Register.RegisterButtonLabel]</a>
+<a class="btn btn-outline-light" href="/account" role="button">
+    <i class="bi bi-person-circle"></i>
+</a>
