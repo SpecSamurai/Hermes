@@ -10,6 +10,7 @@ public static partial class ServiceCollectionExtensions
             .AddScoped<ICatalogService, CatalogService>()
             .AddScoped<IOrdersService, OrdersService>()
             .AddScoped<IPaymentsService, PaymentsService>()
-            .AddScoped<IBasketService, BasketService>();
+            .AddScoped<IBasketService, BasketService>()
+            .AddScoped<IAccountService, AccountService>();
     }
 }
