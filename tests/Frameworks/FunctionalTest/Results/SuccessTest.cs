@@ -11,7 +11,7 @@ public class SuccessTest
     public void Constructor_Null_ThrowArgumentNullException()
     {
         // Arrange & Act
-        Action sut = () => new Success<string>(null!);
+        static void sut() => _ = new Success<string>(null!);
 
         // Assert
         Assert.Throws<ArgumentNullException>(sut);

@@ -11,7 +11,7 @@ public class FailureTest
     public void Constructor_Null_ThrowArgumentNullException()
     {
         // Arrange & Act
-        Action sut = () => new Failure<string>(null!);
+        static void sut() => _ = new Failure<string>(null!);
 
         // Assert
         Assert.Throws<ArgumentNullException>(sut);
