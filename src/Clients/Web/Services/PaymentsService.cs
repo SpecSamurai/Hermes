@@ -8,40 +8,48 @@ namespace Hermes.Client.Web.Services;
 
 public class PaymentsService : IPaymentsService
 {
-    public Task<IResult<PageResponse<PaymentGetResponse>>> GetPageAsync(int pageIndex)
+    private readonly PaymentApiOptions paymentApiOptions;
+    private readonly IHttpClientFactory httpClientFactory;
+
+    public PaymentsService(
+        IOptions<PaymentApiOptions> paymentApiOptions,
+        IHttpClientFactory httpClientFactory)
     {
-        return Task.FromResult<IResult<PageResponse<PaymentGetResponse>>>(
-            new PageResponse<PaymentGetResponse>
-            {
-                PageIndex = pageIndex,
-                Data = new List<PaymentGetResponse>
-                {
-                    new PaymentGetResponse
-                    {
-                        Id = Guid.NewGuid(),
-                        OrderId = Guid.NewGuid(),
-                        Price = 100,
-                        Date = DateTime.Now,
-                        Status = "Paid"
-                    },
-                    new PaymentGetResponse
-                    {
-                        Id = Guid.NewGuid(),
-                        OrderId = Guid.NewGuid(),
-                        Price = 100,
-                        Date = DateTime.Now,
-                        Status = "Paid"
-                    },
-                    new PaymentGetResponse
-                    {
-                        Id = Guid.NewGuid(),
-                        OrderId = Guid.NewGuid(),
-                        Price = 100,
-                        Date = DateTime.Now,
-                        Status = "Paid"
-                    },
-                }
-            }.ToSuccess()
-        );
+        this.paymentApiOptions = paymentApiOptions.Value;
+        this.httpClientFactory = httpClientFactory;
+    }
+
+    public async Task<IResult<PageResponse<PaymentGetResponse>>> GetPageAsync(int pageIndex)
+    {
+        var httpClient = httpClientFactory.CreateClient(HttpClients.PaymentApi);
+        var response = await httpClient.GetAsync(GetUri(pageIndex));
+
+        return
+            response.IsSuccessStatusCode &&
+            await response.Content.ReadFromJsonAsync<PageResponse<PaymentGetResponse>>() is PageResponse<PaymentGetResponse> page
+                ? page.ToSuccess()
+                : Result.Failure<PageResponse<PaymentGetResponse>>(
+                    ErrorCodes.Ordering.GetPageFailed,
+                    (nameof(response.StatusCode), response.StatusCode));
+    }
+
+    private Uri GetUri(int pageIndex)
+    {
+        var queryString = GetQueryString(pageIndex);
+        var uri = paymentApiOptions.GetPaymentsEndpointPath + queryString;
+
+        return new Uri(uri, UriKind.Relative);
+    }
+
+    private static QueryString GetQueryString(int pageIndex)
+    {
+        var queryString = new QueryBuilder
+        {
+            { "index", pageIndex.ToString() },
+            { "size", "12" },
+            { "sorting", "name" }
+        };
+
+        return queryString.ToQueryString();
     }
 }

@@ -8,38 +8,48 @@ namespace Hermes.Client.Web.Services;
 
 public class OrdersService : IOrdersService
 {
-    public Task<IResult<PageResponse<OrderGetResponse>>> GetPageAsync(int pageIndex)
+    private readonly OrderingApiOptions orderingApiOptions;
+    private readonly IHttpClientFactory httpClientFactory;
+
+    public OrdersService(
+        IOptions<OrderingApiOptions> orderingApiOptions,
+        IHttpClientFactory httpClientFactory)
     {
-        return Task.FromResult<IResult<PageResponse<OrderGetResponse>>>(
-            new PageResponse<OrderGetResponse>()
-            {
-                PageIndex = pageIndex,
-                Data = new List<OrderGetResponse>
-                {
-                    new OrderGetResponse
-                    {
-                        Id = Guid.NewGuid(),
-                        Products = new List<OrderedProductGetResponse>
-                        {
-                            new OrderedProductGetResponse
-                            {
-                                Name = "Product 1"
-                            },
-                            new OrderedProductGetResponse
-                            {
-                                Name = "Product 2"
-                            },
-                            new OrderedProductGetResponse
-                            {
-                                Name = "Product 3"
-                            }
-                        },
-                        Price = 100,
-                        Date = DateTime.Now,
-                        Status = "Paid"
-                    }
-                }
-            }.ToSuccess()
-        );
+        this.orderingApiOptions = orderingApiOptions.Value;
+        this.httpClientFactory = httpClientFactory;
+    }
+
+    public async Task<IResult<PageResponse<OrderGetResponse>>> GetPageAsync(int pageIndex)
+    {
+        var httpClient = httpClientFactory.CreateClient(HttpClients.OrderingApi);
+        var response = await httpClient.GetAsync(GetUri(pageIndex));
+
+        return
+            response.IsSuccessStatusCode &&
+            await response.Content.ReadFromJsonAsync<PageResponse<OrderGetResponse>>() is PageResponse<OrderGetResponse> page
+                ? page.ToSuccess()
+                : Result.Failure<PageResponse<OrderGetResponse>>(
+                    ErrorCodes.Ordering.GetPageFailed,
+                    (nameof(response.StatusCode), response.StatusCode));
+    }
+
+    private Uri GetUri(int pageIndex)
+    {
+        var queryString = GetQueryString(pageIndex);
+        var uri = orderingApiOptions.GetOrdersEndpointPath + queryString;
+
+        return new Uri(uri, UriKind.Relative);
+    }
+
+    private static QueryString GetQueryString(int pageIndex)
+    {
+        var queryString = new QueryBuilder
+        {
+            { "index", pageIndex.ToString() },
+            { "size", "12" },
+            { "sorting", "name" }
+        };
+
+        return queryString.ToQueryString();
     }
 }

@@ -43,10 +43,12 @@ public class CatalogService : ICatalogService
 
     private static QueryString GetQueryString(int pageIndex)
     {
-        var queryString = new QueryBuilder();
-        queryString.Add("index", pageIndex.ToString());
-        queryString.Add("size", "12");
-        queryString.Add("sorting", "name");
+        var queryString = new QueryBuilder
+        {
+            { "index", pageIndex.ToString() },
+            { "size", "12" },
+            { "sorting", "name" }
+        };
 
         return queryString.ToQueryString();
     }
