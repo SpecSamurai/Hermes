@@ -8,7 +8,7 @@
     if (addToBasketButton) {
         addToBasketButton.addEventListener('click', () => {
 
-            fetch('@Model.BaseAddress@Model.GetBasketEndpointPath', {
+            fetch('@Model.BaseAddress@Model.BasketEndpointPath', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

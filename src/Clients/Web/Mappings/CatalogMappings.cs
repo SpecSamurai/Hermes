@@ -31,7 +31,7 @@ internal static class CatalogMappings
         new()
         {
             BaseAddress = options.BaseAddress,
-            GetBasketEndpointPath = options.GetBasketEndpointPath,
+            BasketEndpointPath = options.BasketEndpointPath,
             Hub = options.Hub
         };
 }

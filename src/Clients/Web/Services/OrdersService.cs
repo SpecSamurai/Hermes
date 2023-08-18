@@ -36,7 +36,7 @@ public class OrdersService : IOrdersService
     private Uri GetUri(int pageIndex)
     {
         var queryString = GetQueryString(pageIndex);
-        var uri = orderingApiOptions.GetOrdersEndpointPath + queryString;
+        var uri = orderingApiOptions.OrdersEndpointPath + queryString;
 
         return new Uri(uri, UriKind.Relative);
     }

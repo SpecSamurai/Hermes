@@ -36,7 +36,7 @@ public class PaymentsService : IPaymentsService
     private Uri GetUri(int pageIndex)
     {
         var queryString = GetQueryString(pageIndex);
-        var uri = paymentApiOptions.GetPaymentsEndpointPath + queryString;
+        var uri = paymentApiOptions.PaymentRequestsEndpointPath + queryString;
 
         return new Uri(uri, UriKind.Relative);
     }

@@ -36,7 +36,7 @@ public class CatalogService : ICatalogService
     private Uri GetUri(int pageIndex)
     {
         var queryString = GetQueryString(pageIndex);
-        var uri = catalogApiOptions.GetPageEndpointPath + queryString;
+        var uri = catalogApiOptions.ItemsEndpointPath + queryString;
 
         return new Uri(uri, UriKind.Relative);
     }
