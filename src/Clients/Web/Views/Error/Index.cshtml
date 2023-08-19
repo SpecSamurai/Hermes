@@ -1,0 +1,20 @@
+﻿@using Hermes.Client.Web.Models.Error;
+
+@model ErrorViewModel
+
+@{
+    ViewData["Title"] = $"{ViewData["Title"]}{Model?.PageTitleSuffix ?? string.Empty}";
+}
+
+<div class="container">
+    <div class="d-flex flex-column align-items-center">
+        @if (Model?.ShowStatusCode is true)
+        {
+            <h1>@Model.StatusCode</h1>
+            <p class="font-weight-normal lead">@Model.Message</p>
+        }
+
+        <p>An error occurred while processing your request. ¯\(°_°)/¯</p>
+        <p>Please wait a few minutes before you try again.</p>
+    </div>
+</div>
