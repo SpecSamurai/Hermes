@@ -1,9 +1,13 @@
-﻿@using Hermes.Client.Web.Models.Error;
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Hermes.Client.Web.Constants
+@using Hermes.Client.Web.Models.Error
 
 @model ErrorViewModel
 
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = $"{ViewData["Title"]}{Model?.PageTitleSuffix ?? string.Empty}";
+    ViewData["Title"] = $"{Localizer.GetString(Resources.Error.Title)}{Model.PageTitleSuffix}";
 }
 
 <div class="container">
