@@ -1,5 +1,4 @@
 ﻿using Hermes.Client.Web.Configurations;
-using Hermes.Client.Web.Constants;
 using Hermes.Client.Web.Mappings;
 using Hermes.Client.Web.Options;
 using Hermes.Client.Web.Services;
@@ -35,6 +34,6 @@ public class CatalogController : Controller
 
         return result.Match(
             page => View(page.ToCatalogViewModel(viewConfig, basketApiOptions)),
-            failure => View(Views.Error, failure.ToErrorViewModel()));
+            failure => this.ErrorView(failure.ToErrorViewModel()));
     }
 }

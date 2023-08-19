@@ -1,5 +1,4 @@
 ﻿using Hermes.Client.Web.Configurations;
-using Hermes.Client.Web.Constants;
 using Hermes.Client.Web.Mappings;
 using Hermes.Client.Web.Options;
 using Hermes.Client.Web.Services;
@@ -32,6 +31,6 @@ public class PaymentsController : Controller
 
         return result.Match(
             page => View(page.ToPaymentsViewModel(viewConfig)),
-            failure => View(Views.Error, failure.ToErrorViewModel()));
+            failure => this.ErrorView(failure.ToErrorViewModel()));
     }
 }
