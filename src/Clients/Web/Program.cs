@@ -15,9 +15,15 @@ builder.Services
 
 var app = builder.Build();
 
+if (app.Environment.IsProduction())
+{
+    app.UseExceptionHandler("/error");
+    app.UseHsts();
+}
+
+app.UseStatusCodePagesWithRedirects("/error/{0}");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 
 app.UseAuthorization();
