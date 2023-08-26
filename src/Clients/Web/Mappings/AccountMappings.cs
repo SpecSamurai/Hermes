@@ -2,7 +2,7 @@ using Hermes.Client.Web.Models.Account;
 
 namespace Hermes.Client.Web.Mappings;
 
-internal static class AccountMappings
+static class AccountMappings
 {
     public static AccountViewModel ToAccountViewModel(this Account account) =>
         new()

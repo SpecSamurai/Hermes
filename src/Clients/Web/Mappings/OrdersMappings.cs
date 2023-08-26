@@ -3,7 +3,7 @@ using Hermes.Client.Web.Models.Orders;
 
 namespace Hermes.Client.Web.Mappings;
 
-internal static class OrdersMappings
+static class OrdersMappings
 {
     public static OrdersViewModel ToOrdersViewModel(
         this PageResponse<OrderGetResponse> response,

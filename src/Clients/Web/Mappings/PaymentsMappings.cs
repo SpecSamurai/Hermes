@@ -3,7 +3,7 @@ using Hermes.Client.Web.Models.Payments;
 
 namespace Hermes.Client.Web.Mappings;
 
-internal static class PaymentsMappings
+static class PaymentsMappings
 {
     public static PaymentsViewModel ToPaymentsViewModel(
         this PageResponse<PaymentGetResponse> response,

@@ -3,7 +3,7 @@ using Hermes.Client.Web.Models.Shared;
 
 namespace Hermes.Client.Web.Mappings;
 
-internal static class PaginationMappings
+static class PaginationMappings
 {
     public static PaginationViewModel ToPaginationViewModel<TModel>(
         this PageResponse<TModel> response,

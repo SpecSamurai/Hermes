@@ -1,6 +1,6 @@
 namespace Hermes.Client.Web.Models.Payments;
 
-internal class PaymentViewModel
+class PaymentViewModel
 {
     public required Guid Id { get; init; }
     public required Guid OrderId { get; init; }

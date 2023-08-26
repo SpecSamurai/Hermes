@@ -1,6 +1,6 @@
 namespace Hermes.Client.Web.Models.Orders;
 
-internal class OrderedProductViewModel
+class OrderedProductViewModel
 {
     public required string Name { get; init; }
 }

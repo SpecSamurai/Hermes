@@ -4,7 +4,7 @@ using Hermes.Client.Web.Options;
 
 namespace Hermes.Client.Web.Mappings;
 
-internal static class CatalogMappings
+static class CatalogMappings
 {
     public static CatalogViewModel ToCatalogViewModel(
         this PageResponse<ItemGetResponse> response,

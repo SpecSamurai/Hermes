@@ -1,6 +1,6 @@
 namespace Hermes.Client.Web.Models.Account;
 
-internal class AccountViewModel
+class AccountViewModel
 {
     public required string FirstName { get; init; }
     public required string LastName { get; init; }

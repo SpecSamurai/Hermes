@@ -1,6 +1,6 @@
 namespace Hermes.Client.Web.Models.Catalog;
 
-internal class CatalogScriptViewModel
+class CatalogScriptViewModel
 {
     public required string BaseAddress { get; init; }
     public required string BasketEndpointPath { get; init; }

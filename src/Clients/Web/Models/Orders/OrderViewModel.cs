@@ -1,6 +1,6 @@
 namespace Hermes.Client.Web.Models.Orders;
 
-internal class OrderViewModel
+class OrderViewModel
 {
     public required Guid Id { get; init; }
     public required IEnumerable<OrderedProductViewModel> Products { get; init; }
