@@ -1,7 +1,31 @@
 namespace Hermes.Client.Web.Constants;
 
-public static class Resources
+static class Resources
 {
+    public static class Admin
+    {
+        public const string Title = $"{nameof(Admin)}|{nameof(Title)}";
+
+        public const string ItemsTabLabel = $"{nameof(Admin)}|{nameof(ItemsTabLabel)}";
+        public const string ItemTypesTabLabel = $"{nameof(Admin)}|{nameof(ItemTypesTabLabel)}";
+        public const string BrandsTabLabel = $"{nameof(Admin)}|{nameof(BrandsTabLabel)}";
+
+        public const string ItemNameLabel = $"{nameof(Admin)}|{nameof(ItemNameLabel)}";
+        public const string ItemDescriptionLabel = $"{nameof(Admin)}|{nameof(ItemDescriptionLabel)}";
+        public const string ItemPriceLabel = $"{nameof(Admin)}|{nameof(ItemPriceLabel)}";
+        public const string ItemPictureUriLabel = $"{nameof(Admin)}|{nameof(ItemPictureUriLabel)}";
+        public const string ItemAvailableStockLabel = $"{nameof(Admin)}|{nameof(ItemAvailableStockLabel)}";
+        public const string ItemTypeLabel = $"{nameof(Admin)}|{nameof(ItemTypeLabel)}";
+        public const string ItemBrandLabel = $"{nameof(Admin)}|{nameof(ItemBrandLabel)}";
+
+        public const string BrandNameLabel = $"{nameof(Admin)}|{nameof(BrandNameLabel)}";
+        public const string ItemTypeNameLabel = $"{nameof(Admin)}|{nameof(ItemTypeNameLabel)}";
+
+        public const string SelectLabel = $"{nameof(Admin)}|{nameof(SelectLabel)}";
+        public const string SaveButtonLabel = $"{nameof(Admin)}|{nameof(SaveButtonLabel)}";
+        public const string DeleteButtonLabel = $"{nameof(Admin)}|{nameof(DeleteButtonLabel)}";
+    }
+
     public static class Account
     {
         public const string Title = $"{nameof(Account)}|{nameof(Title)}";
@@ -17,6 +41,11 @@ public static class Resources
         public const string Title = $"{nameof(Catalog)}|{nameof(Title)}";
 
         public const string AddToBasketButtonLabel = $"{nameof(Catalog)}|{nameof(AddToBasketButtonLabel)}";
+    }
+
+    public static class Error
+    {
+        public const string Title = $"{nameof(Error)}|{nameof(Title)}";
     }
 
     public static class Login
