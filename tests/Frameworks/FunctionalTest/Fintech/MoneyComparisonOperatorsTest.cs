@@ -42,7 +42,7 @@ public class MoneyComparisonOperatorsTest
         Action action = () => _ = sut1 < sut2;
 
         // Assert
-        Assert.Throws<CurrencyException>(action);
+        Assert.Throws<InvalidCurrencyOperationException>(action);
     }
 
     [Fact]
@@ -54,7 +54,7 @@ public class MoneyComparisonOperatorsTest
         Action action = () => _ = sut1 > sut2;
 
         // Assert
-        Assert.Throws<CurrencyException>(action);
+        Assert.Throws<InvalidCurrencyOperationException>(action);
     }
 
     [Fact]
@@ -66,7 +66,7 @@ public class MoneyComparisonOperatorsTest
         Action action = () => _ = sut1 <= sut2;
 
         // Assert
-        Assert.Throws<CurrencyException>(action);
+        Assert.Throws<InvalidCurrencyOperationException>(action);
     }
 
     [Fact]
@@ -78,7 +78,7 @@ public class MoneyComparisonOperatorsTest
         Action action = () => _ = sut1 >= sut2;
 
         // Assert
-        Assert.Throws<CurrencyException>(action);
+        Assert.Throws<InvalidCurrencyOperationException>(action);
     }
 
     [Fact]

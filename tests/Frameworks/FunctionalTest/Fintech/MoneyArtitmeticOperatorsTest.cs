@@ -14,7 +14,7 @@ public class MoneyArtitmeticOperatorsTest
         var action = () => sut1 + sut2;
 
         // Assert
-        Assert.Throws<CurrencyException>(action);
+        Assert.Throws<InvalidCurrencyOperationException>(action);
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public class MoneyArtitmeticOperatorsTest
         var action = () => sut1 - sut2;
 
         // Assert
-        Assert.Throws<CurrencyException>(action);
+        Assert.Throws<InvalidCurrencyOperationException>(action);
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public class MoneyArtitmeticOperatorsTest
         var action = () => sut1 * sut2;
 
         // Assert
-        Assert.Throws<CurrencyException>(action);
+        Assert.Throws<InvalidCurrencyOperationException>(action);
     }
 
     [Fact]
@@ -50,7 +50,7 @@ public class MoneyArtitmeticOperatorsTest
         var action = () => sut1 / sut2;
 
         // Assert
-        Assert.Throws<CurrencyException>(action);
+        Assert.Throws<InvalidCurrencyOperationException>(action);
     }
 
     [Fact]
