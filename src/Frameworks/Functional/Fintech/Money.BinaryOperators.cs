@@ -5,7 +5,7 @@ public partial record Money
     public static Money operator +(Money left, Money right) =>
         left.Currency == right.Currency
             ? new Money(left.Amount + right.Amount, left.Currency)
-            : throw new CurrencyException(
+            : throw new InvalidCurrencyOperationException(
                 left.Currency.Code.ToString(),
                 right.Currency.Code.ToString());
 
@@ -18,7 +18,7 @@ public partial record Money
     public static Money operator -(Money left, Money right) =>
         left.Currency == right.Currency
             ? new Money(left.Amount - right.Amount, left.Currency)
-            : throw new CurrencyException(
+            : throw new InvalidCurrencyOperationException(
                 left.Currency.Code.ToString(),
                 right.Currency.Code.ToString());
 
@@ -31,7 +31,7 @@ public partial record Money
     public static Money operator *(Money left, Money right) =>
         left.Currency == right.Currency
             ? new Money(left.Amount * right.Amount, left.Currency)
-            : throw new CurrencyException(
+            : throw new InvalidCurrencyOperationException(
                 left.Currency.Code.ToString(),
                 right.Currency.Code.ToString());
 
@@ -44,7 +44,7 @@ public partial record Money
     public static Money operator /(Money left, Money right) =>
         left.Currency == right.Currency
             ? new Money(left.Amount / right.Amount, left.Currency)
-            : throw new CurrencyException(
+            : throw new InvalidCurrencyOperationException(
                 left.Currency.Code.ToString(),
                 right.Currency.Code.ToString());
 
