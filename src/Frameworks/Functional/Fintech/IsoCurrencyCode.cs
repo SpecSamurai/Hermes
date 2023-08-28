@@ -1,7 +1,7 @@
 namespace Hermes.Frameworks.Functional.Fintech;
 
 // https://en.wikipedia.org/wiki/ISO_4217
-public enum CurrencyCode
+public enum IsoCurrencyCode
 {
     AED = 784,
     AFN = 971,
