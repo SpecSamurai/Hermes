@@ -18,7 +18,7 @@ public record CurrencyPair
     }
 
     public override string ToString() =>
-        $"{BaseCurrency.Code}/{QuoteCurrency.Code}";
+        $"{BaseCurrency}/{QuoteCurrency}";
 
     public static implicit operator (Currency BaseCurrency, Currency QuoteCurrency)(CurrencyPair conversion) =>
         (conversion.BaseCurrency, conversion.QuoteCurrency);
