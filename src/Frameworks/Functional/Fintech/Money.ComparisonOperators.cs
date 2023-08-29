@@ -6,27 +6,27 @@ public partial record Money
         left.Currency == right.Currency
             ? left.Amount > right.Amount
             : throw new InvalidCurrencyOperationException(
-                left.Currency.Code.ToString(),
-                right.Currency.Code.ToString());
+                left.Currency.ToString(),
+                right.Currency.ToString());
 
     public static bool operator <(Money left, Money right) =>
         left.Currency == right.Currency
             ? left.Amount < right.Amount
             : throw new InvalidCurrencyOperationException(
-                left.Currency.Code.ToString(),
-                right.Currency.Code.ToString());
+                left.Currency.ToString(),
+                right.Currency.ToString());
 
     public static bool operator >=(Money left, Money right) =>
         left.Currency == right.Currency
             ? left.Amount >= right.Amount
             : throw new InvalidCurrencyOperationException(
-                left.Currency.Code.ToString(),
-                right.Currency.Code.ToString());
+                left.Currency.ToString(),
+                right.Currency.ToString());
 
     public static bool operator <=(Money left, Money right) =>
         left.Currency == right.Currency
             ? left.Amount <= right.Amount
             : throw new InvalidCurrencyOperationException(
-                left.Currency.Code.ToString(),
-                right.Currency.Code.ToString());
+                left.Currency.ToString(),
+                right.Currency.ToString());
 }
