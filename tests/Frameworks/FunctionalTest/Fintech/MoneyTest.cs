@@ -5,8 +5,8 @@ namespace Hermes.Frameworks.FunctionalTest.Fintech;
 
 public class MoneyTest
 {
-    private readonly Currency FromTest = Currency.USD;
-    private readonly Currency ToTest = Currency.EUR;
+    private readonly Currency FromTest = IsoCurrencies.USD;
+    private readonly Currency ToTest = IsoCurrencies.EUR;
 
     [Fact]
     public void Reduce_USD_EUR()

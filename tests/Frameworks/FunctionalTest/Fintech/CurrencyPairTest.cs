@@ -5,8 +5,8 @@ namespace Hermes.Frameworks.FunctionalTest.Fintech;
 
 public class CurrencyPairTest
 {
-    private readonly Currency BaseCurrencyTest = Currency.USD;
-    private readonly Currency QuoteCurrencyTest = Currency.EUR;
+    private readonly Currency BaseCurrencyTest = IsoCurrencies.USD;
+    private readonly Currency QuoteCurrencyTest = IsoCurrencies.EUR;
 
     [Fact]
     public void Deconstruct_CurrencyPair_ValidTuple()
