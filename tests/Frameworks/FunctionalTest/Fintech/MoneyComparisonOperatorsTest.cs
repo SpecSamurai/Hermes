@@ -1,4 +1,4 @@
-using Hermes.Frameworks.Functional.Fintech;
+using Fintech;
 using Xunit;
 
 namespace Hermes.Frameworks.FunctionalTest.Fintech;
@@ -42,7 +42,7 @@ public class MoneyComparisonOperatorsTest
         Action action = () => _ = sut1 < sut2;
 
         // Assert
-        Assert.Throws<InvalidCurrencyOperationException>(action);
+        Assert.Throws<MoneyException>(action);
     }
 
     [Fact]
@@ -54,7 +54,7 @@ public class MoneyComparisonOperatorsTest
         Action action = () => _ = sut1 > sut2;
 
         // Assert
-        Assert.Throws<InvalidCurrencyOperationException>(action);
+        Assert.Throws<MoneyException>(action);
     }
 
     [Fact]
@@ -66,7 +66,7 @@ public class MoneyComparisonOperatorsTest
         Action action = () => _ = sut1 <= sut2;
 
         // Assert
-        Assert.Throws<InvalidCurrencyOperationException>(action);
+        Assert.Throws<MoneyException>(action);
     }
 
     [Fact]
@@ -78,7 +78,7 @@ public class MoneyComparisonOperatorsTest
         Action action = () => _ = sut1 >= sut2;
 
         // Assert
-        Assert.Throws<InvalidCurrencyOperationException>(action);
+        Assert.Throws<MoneyException>(action);
     }
 
     [Fact]

@@ -1,4 +1,4 @@
-using Hermes.Frameworks.Functional.Fintech;
+using Fintech;
 using Xunit;
 
 namespace Hermes.Frameworks.FunctionalTest.Fintech;

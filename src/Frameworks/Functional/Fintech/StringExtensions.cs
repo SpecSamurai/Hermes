@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace Hermes.Frameworks.Functional.Fintech;
+namespace Fintech;
 
 public static class StringExtensions
 {
