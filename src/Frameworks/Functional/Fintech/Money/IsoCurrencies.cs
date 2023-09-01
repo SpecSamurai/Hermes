@@ -13,7 +13,7 @@ public static class IsoCurrencies
             .ToDictionary(
                 fieldInfo => fieldInfo.Name,
                 fieldInfo => fieldInfo.GetValue(null) as Currency
-                    ?? throw new NullReferenceException(Errors.InvalidCurrencyInstance));
+                    ?? throw new NullReferenceException($"Currency {fieldInfo.Name} not initialized."));
     }
 
     internal static IReadOnlyDictionary<string, Currency> All { get; }
