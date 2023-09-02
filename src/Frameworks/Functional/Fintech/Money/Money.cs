@@ -22,7 +22,4 @@ public partial record Money : IExpression
         var rate = exchangeRates[(Currency, to)];
         return new Money(Amount * rate, to);
     }
-
-    public override string ToString() =>
-        $"{Amount} {Currency}";
 }

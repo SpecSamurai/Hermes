@@ -21,7 +21,4 @@ public partial record Currency
     public int DecimalDigits { get; }
     public string EnglishName { get; }
     public string Symbol { get; }
-
-    public override string ToString() =>
-        AlphabeticCode;
 }

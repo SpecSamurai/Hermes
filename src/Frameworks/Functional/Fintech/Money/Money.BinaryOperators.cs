@@ -7,8 +7,8 @@ public partial record Money
             ? new(left.Amount + right.Amount, left.Currency)
             : throw new MoneyException(
                 Errors.InvalidCurrenciesError,
-                (nameof(left.Currency), left.Currency),
-                (nameof(right.Currency), right.Currency));
+                (nameof(left), left.Currency),
+                (nameof(right), right.Currency));
 
     public static Money operator +(Money left, decimal right) =>
         new(left.Amount + right, left.Currency);
@@ -21,8 +21,8 @@ public partial record Money
             ? new(left.Amount - right.Amount, left.Currency)
             : throw new MoneyException(
                 Errors.InvalidCurrenciesError,
-                (nameof(left.Currency), left.Currency),
-                (nameof(right.Currency), right.Currency));
+                (nameof(left), left.Currency),
+                (nameof(right), right.Currency));
 
     public static Money operator -(Money left, decimal right) =>
         new(left.Amount - right, left.Currency);
@@ -35,8 +35,8 @@ public partial record Money
             ? new(left.Amount * right.Amount, left.Currency)
             : throw new MoneyException(
                 Errors.InvalidCurrenciesError,
-                (nameof(left.Currency), left.Currency),
-                (nameof(right.Currency), right.Currency));
+                (nameof(left), left.Currency),
+                (nameof(right), right.Currency));
 
     public static Money operator *(Money left, decimal right) =>
         new(left.Amount * right, left.Currency);
@@ -49,8 +49,8 @@ public partial record Money
             ? new(left.Amount / right.Amount, left.Currency)
             : throw new MoneyException(
                 Errors.InvalidCurrenciesError,
-                (nameof(left.Currency), left.Currency),
-                (nameof(right.Currency), right.Currency));
+                (nameof(left), left.Currency),
+                (nameof(right), right.Currency));
 
     public static Money operator /(Money left, decimal right) =>
         new(left.Amount / right, left.Currency);
