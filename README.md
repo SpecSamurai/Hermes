@@ -46,3 +46,4 @@ A version must follow the [SemVer 2](https://semver.org/spec/v2.0.0.html) standa
 ## References
 - [.NET Microservices: Architecture for Containerized .NET Applications](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/)
 - [.NET Microservices Sample Reference Application](https://github.com/dotnet-architecture/eShopOnContainers)
+- [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)
