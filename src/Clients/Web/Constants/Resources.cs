@@ -43,6 +43,11 @@ static class Resources
         public const string AddToBasketButtonLabel = $"{nameof(Catalog)}|{nameof(AddToBasketButtonLabel)}";
     }
 
+    public static class Common
+    {
+        public const string InvalidMoneyError = $"{nameof(Common)}|{nameof(InvalidMoneyError)}";
+    }
+
     public static class Error
     {
         public const string Title = $"{nameof(Error)}|{nameof(Title)}";
