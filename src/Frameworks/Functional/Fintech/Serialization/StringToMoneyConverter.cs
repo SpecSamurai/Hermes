@@ -20,7 +20,7 @@ public class StringToMoneyConverter : IMoneyConverter<string>
         var currencyCode = new string(value.Where(char.IsLetter).ToArray());
         var amount = value.Replace(currencyCode, string.Empty);
 
-        return amount.TryParseToDecimal(out var decimalAmount) &&
+        return decimal.TryParse(amount, moneySerializerOptions.DecimalFormatProvider, out var decimalAmount) &&
             moneySerializerOptions.Currencies.TryGetValue(currencyCode, out var currency)
             ? decimalAmount.ToMoney(currency)
             : default;

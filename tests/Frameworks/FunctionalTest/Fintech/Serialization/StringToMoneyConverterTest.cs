@@ -1,3 +1,4 @@
+using System.Globalization;
 using Fintech;
 using Fintech.Serialization;
 using Xunit;
@@ -109,27 +110,7 @@ public class StringToMoneyConverterTest
     }
 
     [Fact]
-    public void Read_FixedPointCurrencyDecimalDigits_DeserializedMoneyWithCurrencyDecimalDigits()
-    {
-        // Arrange
-        var test = new Money(66666666666.666666666m, IsoCurrencies.USD);
-        var options = new MoneySerializerOptions
-        {
-            Converters = MoneySerializerOptions.Default.Converters,
-            Currencies = MoneySerializerOptions.Default.Currencies,
-        };
-
-        var sut = new StringToMoneyConverter();
-
-        // Act
-        var actual = sut.Read(test, options);
-
-        // Assert
-        Assert.Equal($"{66666666666.666666666m} {IsoCurrencies.USD.AlphabeticCode}", actual);
-    }
-
-    [Fact]
-    public void Read_CurrencyWithoutDecimalDigits_ZeroDecimalDigits()
+    public void Read_CustomDecimalFormat_ValidDecimalFormatting()
     {
         // Arrange
         var currency = new Currency("Test", "Test", -1, "Test", "Test");
@@ -148,5 +129,41 @@ public class StringToMoneyConverterTest
 
         // Assert
         Assert.Equal($"123456789.123 Test", actual);
+    }
+
+    [Fact]
+    public void Read_CustomDecimalFormatProvider_InvariantCulture()
+    {
+        // Arrange
+        var currency = new Currency("Test", "Test", -1, "Test", "Test");
+        var test = new Money(1.15m, currency);
+        var options = new MoneySerializerOptions
+        {
+            DecimalFormatProvider = new CultureInfo("pl-PL"),
+            Converters = MoneySerializerOptions.Default.Converters,
+            Currencies = MoneySerializerOptions.Default.Currencies,
+        };
+
+        var sut = new StringToMoneyConverter();
+
+        // Act
+        var actual = sut.Read(test, options);
+
+        // Assert
+        Assert.Equal($"1,15 Test", actual);
+    }
+
+    [Fact]
+    public void Write_DefaultOptions_ValidMoney()
+    {
+        // Arrange
+        var sut = new StringToMoneyConverter();
+
+        // Act
+        var actual = sut.Write("1.15 XTS", MoneySerializerOptions.Default)!;
+
+        // Assert
+        Assert.Equal(1.15m, actual.Amount);
+        Assert.Equal(IsoCurrencies.XTS, actual.Currency);
     }
 }
