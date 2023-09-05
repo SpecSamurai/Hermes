@@ -1,3 +1,5 @@
+using Hermes.Client.Web.Extensions.ModelBinders;
+
 var builder = WebApplication.CreateBuilder(args);
 
 if (builder.Environment.IsDevelopment())
@@ -10,7 +12,11 @@ builder.Services.RegisterHttpClients();
 builder.Services.RegisterServices();
 
 builder.Services
-    .AddControllersWithViews()
+    .AddLocalization()
+    .AddControllersWithViews(options =>
+    {
+        options.ModelBinderProviders.Insert(0, new MoneyBinderProvider());
+    })
     .AddViewLocalization();
 
 var app = builder.Build();
