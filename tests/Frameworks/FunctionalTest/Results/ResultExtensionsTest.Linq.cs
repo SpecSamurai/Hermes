@@ -137,4 +137,27 @@ public partial class ResultExtensionsTest
         Assert.IsType<Failure<string>>(actual);
         Assert.Equal("Failure", actualValue);
     }
+
+    [Fact]
+    public async void SelectManyAsync_SuccessWithFailure_Failure()
+    {
+        // Arrange
+        var test1 = Task.Run(() => (IResult<string>)Result.Success<string>(string.Empty));
+        var test2 = Task.Run(() => (IResult<int>)Result.Failure<int>("Failure"));
+
+        // Act
+        var actual = await
+            (from testValue1 in test1
+             from testValue2 in test2
+             select testValue1 + testValue2);
+
+        var actualValue = actual.Match(
+            onSuccess: value => value,
+            onFailure: _ => _
+        );
+
+        // Assert
+        Assert.IsType<Failure<string>>(actual);
+        Assert.Equal("Failure", actualValue);
+    }
 }
