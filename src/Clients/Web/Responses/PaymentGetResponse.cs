@@ -1,4 +1,4 @@
-namespace Hermes.Client.Web;
+namespace Hermes.Client.Web.Responses;
 
 public class PaymentGetResponse
 {
