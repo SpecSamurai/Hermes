@@ -1,5 +1,6 @@
 using Hermes.Client.Web.Configurations;
 using Hermes.Client.Web.Models.Shared;
+using Hermes.Client.Web.Responses;
 
 namespace Hermes.Client.Web.Mappings;
 

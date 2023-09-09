@@ -1,6 +1,7 @@
 using Hermes.Client.Web.Configurations;
 using Hermes.Client.Web.Models.Catalog;
 using Hermes.Client.Web.Options;
+using Hermes.Client.Web.Responses;
 
 namespace Hermes.Client.Web.Mappings;
 
