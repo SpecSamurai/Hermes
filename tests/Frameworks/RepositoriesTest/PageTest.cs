@@ -71,18 +71,18 @@ public class PageTest
     public void ToList_ValidPage_List()
     {
         // Arrange
-        var exprectedList = new List<int> { 1, 2, 3 };
+        var expectedList = new List<int> { 1, 2, 3 };
         var sut = new Page<int>(
-            exprectedList,
-            totalCount: exprectedList.Count,
+            expectedList,
+            totalCount: expectedList.Count,
             pageIndex: ValidPageIndex,
-            pageSize: exprectedList.Count);
+            pageSize: expectedList.Count);
 
         // Act
         var actual = sut.ToList();
 
         // Assert
-        Assert.Equal(exprectedList, actual);
+        Assert.Equal(expectedList, actual);
     }
 
     [Theory]

@@ -5,7 +5,7 @@ namespace Hermes.Frameworks.Repositories.Query;
 
 public interface IPaginationQueryRepository<TEntity>
 {
-    Task<IList<TResult>> GetPageAsync<TResult>(
+    Task<Page<TResult>> GetPageAsync<TResult>(
         Offset offset,
         Expression<Func<TEntity, TResult>> selector,
         string sorting,
