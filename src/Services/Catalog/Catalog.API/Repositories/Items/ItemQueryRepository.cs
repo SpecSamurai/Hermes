@@ -32,7 +32,7 @@ public class ItemQueryRepository : IItemQueryRepository
                 .Select(selector)
                 .ToListAsync(cancellationToken);
 
-    public async Task<IList<TResult>> GetPageAsync<TResult>(
+    public async Task<Page<TResult>> GetPageAsync<TResult>(
         Offset offset,
         Expression<Func<Item, TResult>> selector,
         string sorting,
@@ -51,7 +51,7 @@ public class ItemQueryRepository : IItemQueryRepository
                 .Skip(offset.Skip)
                 .Take(offset.Take);
 
-        return property is not null
+        var data = property is not null
             ? await query
                 .OrderBy(item => property.GetValue(item))
                 .Select(selector)
@@ -59,6 +59,10 @@ public class ItemQueryRepository : IItemQueryRepository
             : await query
                 .Select(selector)
                 .ToListAsync(cancellationToken);
+
+        var totalCount = await _catelogContext.Items.CountAsync();
+
+        return data.ToPage(totalCount, offset);
     }
 
     public async Task<IList<TResult>> GetPageAsync<TResult>(

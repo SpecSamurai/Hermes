@@ -29,7 +29,7 @@ public class ItemTypeQueryRepository : IItemTypeQueryRepository
                 .Select(selector)
                 .ToListAsync(cancellationToken);
 
-    public async Task<IList<TResult>> GetPageAsync<TResult>(
+    public async Task<Page<TResult>> GetPageAsync<TResult>(
         Offset offset,
         Expression<Func<ItemType, TResult>> selector,
         string sorting,
@@ -43,11 +43,15 @@ public class ItemTypeQueryRepository : IItemTypeQueryRepository
                 .OrderBy(brand => property.GetValue(brand))
             : _catelogContext.ItemTypes.AsNoTracking();
 
-        return await query
+        var data = await query
             .Select(selector)
             .Skip(offset.Skip)
             .Take(offset.Take)
             .ToListAsync(cancellationToken);
+
+        var totalCount = await _catelogContext.ItemTypes.CountAsync();
+
+        return data.ToPage(totalCount, offset);
     }
 
     public async Task<IList<TResult>> GetPageAsync<TResult>(
