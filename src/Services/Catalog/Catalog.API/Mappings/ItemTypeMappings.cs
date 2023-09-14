@@ -13,17 +13,6 @@ public static class ItemTypeMappings
             Name = itemType.Name
         };
 
-    public static PageResponse<ItemTypeGetResponse> ToPageResponse(
-        this IEnumerable<ItemTypeGetResponse> itemTypes,
-        int pageIndex,
-        int pageSize) =>
-            new()
-            {
-                Data = itemTypes,
-                PageIndex = pageIndex,
-                PageSize = pageSize
-            };
-
     public static ItemType ToItemTypeEntity(this ItemTypePostRequest request) =>
         new()
         {

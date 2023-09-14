@@ -13,17 +13,6 @@ public static class BrandMappings
             Name = brand.Name
         };
 
-    public static PageResponse<BrandGetResponse> ToPageResponse(
-        this IEnumerable<BrandGetResponse> brands,
-        int pageIndex,
-        int pageSize) =>
-            new()
-            {
-                Data = brands,
-                PageIndex = pageIndex,
-                PageSize = pageSize
-            };
-
     public static Brand ToBrandEntity(this BrandPostRequest request) =>
         new()
         {

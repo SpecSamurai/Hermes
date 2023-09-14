@@ -1,6 +1,5 @@
 using Hermes.Catalog.API.Entities;
 using Hermes.Catalog.API.Requests.Items;
-using Hermes.Catalog.API.Responses;
 using Hermes.Catalog.API.Responses.Items;
 
 namespace Hermes.Catalog.API.Mappings;
@@ -36,17 +35,6 @@ public static class ItemMappings
             TypeId = item.TypeId,
             BrandId = item.BrandId
         };
-
-    public static PageResponse<ItemGetResponse> ToPageResponse(
-        this IEnumerable<ItemGetResponse> items,
-        int pageIndex,
-        int pageSize) =>
-            new()
-            {
-                Data = items,
-                PageIndex = pageIndex,
-                PageSize = pageSize
-            };
 
     public static Item ToItemEntity(this ItemPostRequest request) =>
         new()
