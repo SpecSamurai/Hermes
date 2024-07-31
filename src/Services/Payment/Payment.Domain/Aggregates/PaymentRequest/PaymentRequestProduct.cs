@@ -1,5 +1,5 @@
+using Fintech;
 using Hermes.Frameworks.DDD.Entities;
-using Hermes.Frameworks.Functional.Fintech;
 
 namespace Hermes.Payment.Domain.Aggregates.PaymentRequest;
 

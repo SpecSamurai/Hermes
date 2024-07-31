@@ -1,3 +1,4 @@
+using Hermes.Client.Web.Responses;
 using Hermes.Frameworks.Functional.Results;
 
 namespace Hermes.Client.Web.Services;

@@ -1,5 +1,6 @@
 using Hermes.Client.Web.Constants;
 using Hermes.Client.Web.Options;
+using Hermes.Client.Web.Responses;
 using Hermes.Frameworks.Functional.Results;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Options;
